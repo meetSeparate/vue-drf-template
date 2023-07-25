@@ -1,6 +1,7 @@
 import {getAccount, addAccount, editAccount, deleteUser} from "@/api/user.js";
 import {getCharacter} from "@/api/character.js";
 import {ref, reactive, getCurrentInstance} from "vue";
+import moment from "moment";
 
 // 获取用户信息
 export const useGetUserInfo = () => {
@@ -178,7 +179,11 @@ export const useGetCharacter = () => {
     // 获取所有角色信息
     const getCharacterData = async (config) => {
         const res = await getCharacter(config)
-        characterData.value = res.data
+        characterData.value = res.data.map(item => {
+            item.create_date = moment(item.create_date).format('YYYY-MM-DD h:mm:ss')
+            item.change_date = moment(item.change_date).format('YYYY-MM-DD h:mm:ss')
+            return item
+        })
     }
 
     return {

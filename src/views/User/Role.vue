@@ -59,6 +59,8 @@ onMounted(() => getCharacterData(config.value))
         <el-table-column fixed type="selection" />
         <el-table-column property="id" label="Id" align="center" />
         <el-table-column property="title" label="角色" show-overflow-tooltip align="center" />
+        <el-table-column property="create_date" label="创建时间" show-overflow-tooltip align="center" />
+        <el-table-column property="change_date" label="修改时间" show-overflow-tooltip align="center" />
         <el-table-column fixed="right" label="操作" align="center">
           <template #default="scope">
             <el-button type="primary" :icon="Edit" size="small"/>

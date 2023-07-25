@@ -42,7 +42,6 @@ setTimeout(() => {
   justify-content: space-between;
   padding: 5px;
 
-
   .el-avatar {
     cursor: pointer;
     margin-right: 10px;
@@ -52,6 +51,11 @@ setTimeout(() => {
     display: flex;
     align-items: center;
   }
+
+  :deep(.el-card__body) {
+    padding: 0;
+  }
+
 }
 
 .el-row {

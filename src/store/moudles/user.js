@@ -1,6 +1,6 @@
 import {defineStore} from "pinia";
 import {ref} from 'vue'
-import {loginAPI} from "@/api/user.js";
+import {loginAPI, signAPI} from "@/api/user.js";
 
 export const useUserStore = defineStore('user', () => {
 
@@ -12,6 +12,10 @@ export const useUserStore = defineStore('user', () => {
         userinfo.value = res
         localStorage.setItem('userinfo', JSON.stringify(res))
     }
+    // 注册
+    const onSign = async (data) => {
+        await signAPI(data)
+    }
 
     // 退出登录
     const onLogout = () => {
@@ -22,6 +26,7 @@ export const useUserStore = defineStore('user', () => {
     return {
         userinfo,
         onLogin,
+        onSign,
         onLogout
     }
 })

@@ -9,7 +9,7 @@ const danmus = [
     text: '太棒了！'
   },
   {
-    color: 'green',
+     color: 'green',
     text: '我擦，怎么这么强！'
   },
   {

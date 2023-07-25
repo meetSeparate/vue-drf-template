@@ -32,24 +32,23 @@ service.interceptors.request.use((request) => {
 service.interceptors.response.use((response) => {
     nprogress.done()
     return response.data
-}, e => {
+}, (error) => {
     const userStore = useUserStore()
     nprogress.done()
     // 统一错误提示
     ElMessage({
         title: 'Error',
-        message: '操作错误',
+        message: error.response.data.msg,
         type: 'error',
         customClass: 'pure-message',
     })
-
-    if (e.response.status === 401) {
+    if (error.response.status === 401) {
         userStore.onLogout()
         router.push({
             name: 'login'
         })
     }
-    return Promise.reject(e)
+    return Promise.reject(error.response.data.msg)
 })
 
 // 封装的核心函数

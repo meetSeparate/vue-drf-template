@@ -8,6 +8,8 @@ import DarkSwitch from '@/components/DarkSwitch/index.vue'
 
 const router = useRouter()
 const route = useRoute()
+// 登录或注册
+const modelChange = ref(true)
 
 // 登录仓库操作
 const userStore = useUserStore()
@@ -19,7 +21,15 @@ const loginForm = ref({
   validation: false
 })
 
+// 注册表单
+const signForm = ref({
+  username: '',
+  password: '',
+  rePassword: '',
+  validation: false
+})
 const loginFormRef = ref()
+const signFormRef = ref()
 
 // 登录表单验证
 const validatestatus = (rule, value, callback) => {
@@ -49,50 +59,58 @@ const toLogin = async () => {
   if (!loginFormRef.value) return
   await loginFormRef.value.validate(async (valid) => {
     if (valid) {
-      try {
-        await userStore.onLogin(loginForm.value)
-        ElMessage({
-          type: 'success',
-          message: '登录成功！',
-          customClass: 'pure-message'
-        })
+      await userStore.onLogin(loginForm.value)
+      ElMessage({
+        type: 'success',
+        message: '登录成功！',
+        customClass: 'pure-message'
+      })
 
-        if (route.query.redirect) {
-          // 如果有重定向
-          router.push(route.query.redirect)
-        } else {
-          router.push({
-            name: 'layout'
-          })
-        }
-
-      } catch (error) {
-        ElMessage({
-          type: 'error',
-          message: error.message,
-          customClass: 'pure-message'
+      if (route.query.redirect) {
+        // 如果有重定向
+        router.push(route.query.redirect)
+      } else {
+        router.push({
+          name: 'layout'
         })
       }
     } else {
       return false
     }
   })
-
-
+}
+// 注册事件
+const toSign = async () => {
+  if (!signFormRef.value) return
+  await signFormRef.value.validate(async (valid) => {
+    if (valid) {
+      await userStore.onSign(signForm.value)
+      ElMessage({
+        type: 'success',
+        message: '注册成功！',
+        customClass: 'pure-message'
+      })
+      modelChange.value = true
+    } else {
+      return false
+    }
+  })
 }
 
 // 滑块验证
-const handleSuccess = () => {
+const handleLoginSuccess = () => {
   loginForm.value.validation = true
   loginFormRef.value.validateField("validation")
 }
-
+const handleSignSuccess = () => {
+  signForm.value.validation = true
+  signFormRef.value.validateField("validation")
+}
 
 </script>
 
 <template>
   <dark-switch/>
-
   <div class="login-container">
     <div class="img">
       <svg-icon width="500px" height="380px" name="illustration"/>
@@ -101,7 +119,6 @@ const handleSuccess = () => {
     <div class="login-content">
       <div class="login-form">
         <svg-icon width="350px" height="80px" name="avatar"/>
-
         <div class="login-title">
           <h2>operatingadmin</h2>
         </div>
@@ -110,16 +127,9 @@ const handleSuccess = () => {
             ref="loginFormRef"
             :model="loginForm"
             :rules="loginRules"
+            v-show="modelChange"
         >
-          <el-form-item
-              :rules="[
-                  {
-                    required: true,
-                    message: '请输入账号',
-                    trigger: 'blur'
-                  }
-                ]"
-              prop="username">
+          <el-form-item prop="username">
             <el-input
                 clearable
                 v-model="loginForm.username"
@@ -141,16 +151,72 @@ const handleSuccess = () => {
             />
           </el-form-item>
           <el-form-item prop="validation">
-            <validation @success="handleSuccess"/>
+            <validation @success="handleLoginSuccess"/>
           </el-form-item>
-          <el-form-item>
+          <el-form-item style="margin-bottom: 5px">
             <el-button style="width: 100%" type="primary" @click="toLogin">登录</el-button>
           </el-form-item>
+          <div class="tip">
+            <span @click="modelChange=false">注册帐号</span>
+          </div>
+        </el-form>
+
+        <el-form
+            ref="signFormRef"
+            :model="signForm"
+            :rules="loginRules"
+            v-show="!modelChange"
+        >
+          <el-form-item prop="username">
+            <el-input
+                clearable
+                v-model="signForm.username"
+                size="large"
+                placeholder="账号"
+                :prefix-icon="User"
+            />
+          </el-form-item>
+          <el-form-item
+              prop="password">
+            <el-input
+                clearable
+                type="password"
+                size="large"
+                v-model="signForm.password"
+                placeholder="密码"
+                :prefix-icon="Lock"
+                show-password
+            />
+          </el-form-item>
+          <el-form-item
+              prop="password">
+            <el-input
+                clearable
+                type="password"
+                size="large"
+                v-model="signForm.rePassword"
+                placeholder="重复密码"
+                :prefix-icon="Lock"
+                show-password
+            />
+          </el-form-item>
+          <el-form-item prop="validation">
+            <validation @success="handleSignSuccess"/>
+          </el-form-item>
+          <el-form-item style="margin-bottom: 5px">
+            <el-button style="width: 100%" type="primary" @click="toSign">注册</el-button>
+          </el-form-item>
+          <div class="tip">
+            <span @click="modelChange=true">登录</span>
+          </div>
         </el-form>
 
       </div>
     </div>
+
   </div>
+
+
 </template>
 
 <style scoped lang="scss">
@@ -199,12 +265,19 @@ const handleSuccess = () => {
   padding: 0;
 }
 
-
 .switch {
   position: absolute;
   right: 20px;
   top: 10px;
 }
 
+.tip {
+  text-align: left;
 
+  span {
+    font-size: 14px;
+    color: #409eff;
+    cursor: pointer;
+  }
+}
 </style>
