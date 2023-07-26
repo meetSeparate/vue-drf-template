@@ -12,3 +12,17 @@ export const addMenu = (data) => request({
     method: 'post',
     data: data
 })
+
+// 编辑菜单
+export const editMenu = (data) => request({
+    url: '/api/menu/',
+    method: 'put',
+    data: data
+})
+
+// 删除菜单
+export const deleteMenu = (data) => request({
+    url: '/api/menu/',
+    method: 'delete',
+    data: data
+})

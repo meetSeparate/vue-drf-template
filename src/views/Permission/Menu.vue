@@ -1,20 +1,31 @@
 <script setup>
-import {ref, onMounted} from 'vue'
+import {ref, onMounted, nextTick} from 'vue'
 import {Delete, Edit, Plus} from "@element-plus/icons-vue";
-import {getMenu, addMenu} from "@/api/menu.js";
+import {addMenu, editMenu, deleteMenu} from "@/api/menu.js";
+import {useMenuStore} from "@/store/moudles/menu.js";
 
-// 树形控件数据
-const dataSource = ref([])
-
-// 获取所有菜单及按钮权限
-const getMenuData = async () => {
-  const res = await getMenu()
-  dataSource.value = res.data
-}
-// 新增菜单标志
+// 菜单仓库
+const menuStore = useMenuStore()
+// 新增或修改菜单标志
 const menuFormVisible = ref(false)
+// dialog标题
+const title = ref('新增菜单')
+// 打开新增菜单对话框
+const openAddDialog = () => {
+  title.value = '新增菜单'
+  menuFormVisible.value = true
+}
+// 打开编辑菜单对话框
+const openEditDialog = (data) => {
+  title.value = '修改菜单'
+  menuFormVisible.value = true
+  nextTick(() => {
+    Object.assign(menuForm.value, data)
+  })
+}
 // 新增菜单表单
 const menuForm = ref({
+  value: '',
   label: '',
   another_name: '',
   type: '',
@@ -33,49 +44,76 @@ const menuRules = ref({
   type: [{required: true, message: '请选择菜单类型', trigger: 'blur'}],
   parent_menu: [{required: true, message: '请选择父级菜单', trigger: 'blur'}],
 })
-// 新增菜单
+// 新增或修改菜单
 const addMenuData = async () => {
-  await addMenu(menuForm.value)
+  if (title.value === '新增菜单') {
+    await addMenu(menuForm.value)
+  } else {
+    await editMenu(menuForm.value)
+  }
   ElMessage({
     type: 'success',
-    message: '新增成功！',
+    message: '操作成功！',
     customClass: 'pure-message',
   })
   handlerClose()
-  getMenuData()
+  menuStore.getMenuData()
 }
 const menuRef = ref()
+// 删除菜单
+const deleteMenuData = async (data) => {
+  await deleteMenu(data)
+  ElMessage({
+    type: 'success',
+    message: '删除成功！',
+    customClass: 'pure-message',
+  })
+  menuStore.getMenuData()
+}
+
 // 关闭对话框回调
 const handlerClose = () => {
-  menuRef.value.resetFields()
   menuFormVisible.value = false
+  menuRef.value.resetFields()
 }
 
 onMounted(() => {
-  getMenuData()
+  menuStore.getMenuData()
 })
 </script>
 
 <template>
   <div class="padding">
     <el-tree
-        :data="dataSource"
-        node-key="id"
+        :data="menuStore.dataSource"
+        node-key="value"
+        :props="menuStore.defaultProps"
         :expand-on-click-node="false"
     >
-      <template #default="{ node }">
+      <template #default="{ node, data }">
         <span class="custom-tree-node">
           <span>{{ node.label }}</span>
           <span>
-            <el-button type="success" size="small" :icon="Plus" circle plain @click="menuFormVisible=true"/>
-            <el-button type="primary" v-if="node.label !== '根节点'" size="small" :icon="Edit" circle plain/>
-            <el-button type="danger" v-if="node.label !== '根节点'" size="small" :icon="Delete" circle plain/>
+            <el-button type="success" size="small" :icon="Plus" circle plain @click="openAddDialog"/>
+            <el-button type="primary" v-if="node.label !== '根节点'" size="small" @click="openEditDialog(data)" :icon="Edit" circle plain/>
+            <el-popconfirm
+                  confirm-button-text="确定"
+                  cancel-button-text="取消"
+                  icon-color="#626AEF"
+                  title="确定删除吗?"
+                  v-if="node.label !== '根节点'"
+                  @confirm="deleteMenuData(data)"
+              >
+              <template #reference>
+                <el-button type="danger" size="small" :icon="Delete" circle plain/>
+              </template>
+            </el-popconfirm>
+
           </span>
         </span>
       </template>
     </el-tree>
-
-    <el-dialog v-model="menuFormVisible" title="新增菜单" :before-close="handlerClose">
+    <el-dialog v-model="menuFormVisible" :title="title" :before-close="handlerClose">
       <el-form :model="menuForm" label-position="top" ref="menuRef" :rules="menuRules">
         <el-form-item label="菜单名称" prop="label">
           <el-input v-model="menuForm.label" autocomplete="off" placeholder="菜单名称"/>
@@ -140,7 +178,7 @@ onMounted(() => {
         <el-form-item label="父级菜单" prop="parent_menu">
           <el-tree-select
               v-model="menuForm.parent_menu"
-              :data="dataSource"
+              :data="menuStore.dataSource"
               check-strictly
               :render-after-expand="false"
               placeholder="父菜单"/>
