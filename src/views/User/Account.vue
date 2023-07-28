@@ -1,10 +1,8 @@
 <script setup>
 import {ref, onMounted} from "vue";
 import {Search, Refresh, Edit, Delete, InfoFilled} from "@element-plus/icons-vue";
-import {
-  useGetUserInfo,
-  useAddUserInfo,
-} from "@/views/User/composable/hooks.js";
+import {useGetUserInfo, useAddUserInfo} from "@/views/User/composable/hooks.js";
+import {useGetCharacter} from "@/views/Permission/composable/hooks.js";
 
 const multipleSelection = ref([])
 const handleSelectionChange = (val) => {
@@ -25,9 +23,11 @@ const {
   handlerClose,
   deleteUserInfo
 } = useAddUserInfo()
+// 获取角色信息
+const {getCharacterData, allCharacterData} = useGetCharacter()
 
 // 获取form表单ref
-const userFormRef = ref(null)
+const userFormRef = ref()
 
 // 分页操作
 // 分页配置
@@ -54,7 +54,10 @@ const resetSearch = () => {
   getUserAccount(accountConfig.value)
 }
 
-onMounted(() => getUserAccount(accountConfig.value))
+onMounted(() => {
+  getUserAccount(accountConfig.value)
+  getCharacterData({currentSize: 7, currentPage: 1})
+})
 </script>
 
 <template>
@@ -182,12 +185,25 @@ onMounted(() => getUserAccount(accountConfig.value))
         >
           <el-input v-model="addUserForm.phone" autocomplete="off" placeholder="联系方式"/>
         </el-form-item>
+        <el-form-item
+            label="角色"
+            prop="role"
+        >
+          <el-select v-model="addUserForm.role" clearable placeholder="请选择">
+            <el-option
+                v-for="item in allCharacterData"
+                :key="item.value"
+                :label="item.label"
+                :value="item.label"
+            />
+          </el-select>
+        </el-form-item>
 
       </el-form>
       <template #footer>
       <span class="dialog-footer">
         <el-button @click="handlerClose">取消</el-button>
-        <el-button type="primary" @click="addUserInfo(accountConfig, getUserAccount)">
+        <el-button type="primary" @click="addUserInfo(accountConfig, getUserAccount, userFormRef)">
           确定
         </el-button>
       </span>

@@ -1,7 +1,7 @@
 <script setup>
 import {ref, onMounted, nextTick} from "vue";
 import {Delete, Edit, InfoFilled, Plus, Search, Refresh, View} from "@element-plus/icons-vue";
-import {useGetCharacter} from "@/views/User/composable/hooks.js";
+import {useGetCharacter} from "@/views/Permission/composable/hooks.js";
 import {useMenuStore} from "@/store/moudles/menu.js";
 import {addCharacter, deleteCharacter, editCharacter} from "@/api/character.js";
 import {ElMessage} from "element-plus";

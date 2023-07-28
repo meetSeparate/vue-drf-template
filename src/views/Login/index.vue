@@ -60,6 +60,8 @@ const toLogin = async () => {
   await loginFormRef.value.validate(async (valid) => {
     if (valid) {
       await userStore.onLogin(loginForm.value)
+      await userStore.getAsyncRoute()
+      userStore.addRoute()
       ElMessage({
         type: 'success',
         message: '登录成功！',

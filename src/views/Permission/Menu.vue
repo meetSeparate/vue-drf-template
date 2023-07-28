@@ -11,9 +11,12 @@ const menuFormVisible = ref(false)
 // dialog标题
 const title = ref('新增菜单')
 // 打开新增菜单对话框
-const openAddDialog = () => {
+const openAddDialog = (data) => {
   title.value = '新增菜单'
   menuFormVisible.value = true
+  nextTick(() => {
+    menuForm.value.parent_menu_id = data.value
+  })
 }
 // 打开编辑菜单对话框
 const openEditDialog = (data) => {
@@ -36,7 +39,7 @@ const menuForm = ref({
   component_address: '',
   menu_icon: '',
   status: '',
-  parent_menu: '',
+  parent_menu_id: '',
 })
 // 新增表单验证
 const menuRules = ref({
@@ -94,7 +97,7 @@ onMounted(() => {
         <span class="custom-tree-node">
           <span>{{ node.label }}</span>
           <span>
-            <el-button type="success" size="small" :icon="Plus" circle plain @click="openAddDialog"/>
+            <el-button type="success" size="small" :icon="Plus" circle plain @click="openAddDialog(data)"/>
             <el-button type="primary" v-if="node.label !== '根节点'" size="small" @click="openEditDialog(data)" :icon="Edit" circle plain/>
             <el-popconfirm
                   confirm-button-text="确定"
@@ -177,7 +180,7 @@ onMounted(() => {
         </el-form-item>
         <el-form-item label="父级菜单" prop="parent_menu">
           <el-tree-select
-              v-model="menuForm.parent_menu"
+              v-model="menuForm.parent_menu_id"
               :data="menuStore.dataSource"
               check-strictly
               :render-after-expand="false"

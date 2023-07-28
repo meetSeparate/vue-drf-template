@@ -1,7 +1,5 @@
 import {getAccount, addAccount, editAccount, deleteUser} from "@/api/user.js";
-import {getCharacter} from "@/api/character.js";
-import {ref, reactive, getCurrentInstance} from "vue";
-import moment from "moment";
+import {ref, reactive, nextTick} from "vue";
 
 // 获取用户信息
 export const useGetUserInfo = () => {
@@ -44,7 +42,6 @@ export const useGetUserInfo = () => {
 
 // 新增用户信息
 export const useAddUserInfo = () => {
-    const {proxy} = getCurrentInstance()
     // 新增用户dialog
     const addUserFormVisible = ref(false)
     // dialog标题
@@ -56,7 +53,8 @@ export const useAddUserInfo = () => {
         name: '',
         gender: '',
         age: '',
-        phone: ''
+        phone: '',
+        role: ''
     })
 
     // 检查年龄信息
@@ -105,6 +103,9 @@ export const useAddUserInfo = () => {
             {required: true, message: '请输入联系方式', trigger: 'blur'},
             {validator: checkMobile, trigger: 'blur'}
         ],
+        role: [
+            {required: true, message: '请选择角色', trigger: 'blur'},
+        ]
     })
 
     const handlerClose = () => {
@@ -120,23 +121,36 @@ export const useAddUserInfo = () => {
     }
 
     // 操作用户
-    const addUserInfo = async (config, fn) => {
-        title.value === '新增用户' ? await addAccount(addUserForm.value) : await editAccount(addUserForm.value)
-        addUserFormVisible.value = false
-        handlerClose()
-        fn(config)
-        ElMessage({
-            type: 'success',
-            message: '操作成功',
-            customClass: 'pure-message'
+    const addUserInfo = async (config, fn, userFormRef) => {
+        if (!userFormRef) return
+        await userFormRef.validate(async (valid) => {
+            if (valid) {
+                title.value === '新增用户' ? await addAccount(addUserForm.value) : await editAccount(addUserForm.value)
+                addUserFormVisible.value = false
+                handlerClose()
+                fn(config)
+                ElMessage({
+                    type: 'success',
+                    message: '操作成功',
+                    customClass: 'pure-message'
+                })
+            } else {
+                ElMessage({
+                    type: 'error',
+                    message: '请输入正确信息',
+                    customClass: 'pure-message'
+                })
+            }
         })
     }
 
     // 编辑用户
     const editUserInfoFlag = (data) => {
         addUserFormVisible.value = true
-        addUserForm.value = data
         title.value = '编辑用户'
+        nextTick(() => {
+            Object.assign(addUserForm.value, data)
+        })
     }
 
     // 新增用户
@@ -167,27 +181,5 @@ export const useAddUserInfo = () => {
         addUserInfoFlag,
         handlerClose,
         deleteUserInfo
-    }
-}
-
-
-// 获取角色信息
-export const useGetCharacter = () => {
-    // 角色信息列表
-    const characterData = ref([])
-
-    // 获取所有角色信息
-    const getCharacterData = async (config) => {
-        const res = await getCharacter(config)
-        characterData.value = res.data.map(item => {
-            item.create_date = moment(item.create_date).format('YYYY-MM-DD h:mm:ss')
-            item.change_date = moment(item.change_date).format('YYYY-MM-DD h:mm:ss')
-            return item
-        })
-    }
-
-    return {
-        characterData,
-        getCharacterData
     }
 }
