@@ -32,7 +32,7 @@ const changeRouter = (item) => {
       <!-- 一级菜单 -->
       <template v-if="!item.children">
         <el-menu-item :index="item.path" v-if="item.meta.isMenu" @click="changeRouter(item)">
-          <el-icon>
+          <el-icon v-if="item.meta.icon">
             <component :is="item.meta.icon"/>
           </el-icon>
           <span>{{item.meta.title}}</span>
@@ -46,7 +46,7 @@ const changeRouter = (item) => {
             v-if="item.children[0].meta.isMenu"
             @click="changeRouter(item.children[0])"
         >
-          <el-icon>
+          <el-icon v-if="item.children[0].meta.icon">
             <component :is="item.children[0].meta.icon"/>
           </el-icon>
           <span>{{item.children[0].meta.title}}</span>
@@ -60,7 +60,7 @@ const changeRouter = (item) => {
             v-if="item.meta.isMenu"
           >
           <template #title>
-            <el-icon>
+            <el-icon v-if="item.meta.icon">
               <component :is="item.meta.icon"/>
             </el-icon>
             <span>{{item.meta.title}}</span>

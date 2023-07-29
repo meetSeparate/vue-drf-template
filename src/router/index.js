@@ -1,14 +1,13 @@
 import {createRouter, createWebHashHistory} from "vue-router";
-import routes from "./routes.js";
-import {useUserStore} from "@/store/moudles/user.js";
-
+import constRoutes from "./routes.js";
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
+import {useUserStore} from "@/store/moudles/user.js";
 
 
 const router = createRouter({
     history: createWebHashHistory(),
-    routes: routes,
+    routes: constRoutes,
 
     scrollBehavior() {
         return {
@@ -20,6 +19,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     nprogress.start()
+    // 用户仓库
     const userStore = useUserStore()
     const token = userStore.userinfo ? userStore.userinfo.token : ''
     if (token) {
@@ -30,7 +30,6 @@ router.beforeEach((to, from, next) => {
         }
     } else {
         if (to.name !== 'login' && to.name !== 'sign') {
-            console.log(from)
             next({name: 'login', query: {redirect: to.path}})
         } else {
             next()

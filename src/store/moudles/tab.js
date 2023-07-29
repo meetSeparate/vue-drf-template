@@ -1,11 +1,7 @@
 import {defineStore} from "pinia";
 import {ref} from "vue";
-import routes from "@/router/routes.js";
 
 export const useTabStore = defineStore('tab', () => {
-
-    // 路由列表
-    const route = routes
 
     // 标签导航列表
     const tabList = ref([{
@@ -31,7 +27,6 @@ export const useTabStore = defineStore('tab', () => {
     }
 
     return {
-        route,
         tabList,
         skipRouter,
         closeTab

@@ -9,7 +9,6 @@ setTimeout(() => {
   loading.value = !loading.value;
 }, 800);
 
-
 </script>
 
 <template>

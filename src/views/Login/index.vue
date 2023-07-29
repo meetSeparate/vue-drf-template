@@ -5,22 +5,20 @@ import {useUserStore} from "@/store/moudles/user.js";
 import {useRouter, useRoute} from "vue-router"
 import Validation from "@/components/Validation/index.vue";
 import DarkSwitch from '@/components/DarkSwitch/index.vue'
+import {usePermissionStore} from "@/store/moudles/permission.js";
 
 const router = useRouter()
 const route = useRoute()
 // 登录或注册
 const modelChange = ref(true)
-
 // 登录仓库操作
 const userStore = useUserStore()
-
 // 登录表单收集
 const loginForm = ref({
   username: 'admin',
   password: '123456',
   validation: false
 })
-
 // 注册表单
 const signForm = ref({
   username: '',
@@ -30,7 +28,6 @@ const signForm = ref({
 })
 const loginFormRef = ref()
 const signFormRef = ref()
-
 // 登录表单验证
 const validatestatus = (rule, value, callback) => {
   if (!value) {
@@ -39,7 +36,6 @@ const validatestatus = (rule, value, callback) => {
     callback()
   }
 }
-
 const loginRules = reactive({
   username: [
     {required: true, message: '请输入用户名', trigger: 'blur'}
@@ -53,15 +49,15 @@ const loginRules = reactive({
     {validator: validatestatus, trigger: "change"}
   ]
 });
-
+// 权限仓库
+const permissionStore = usePermissionStore()
 // 登录事件
 const toLogin = async () => {
   if (!loginFormRef.value) return
   await loginFormRef.value.validate(async (valid) => {
     if (valid) {
       await userStore.onLogin(loginForm.value)
-      await userStore.getAsyncRoute()
-      userStore.addRoute()
+      await permissionStore.getAsyncRoute()
       ElMessage({
         type: 'success',
         message: '登录成功！',

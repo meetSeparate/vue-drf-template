@@ -1,9 +1,9 @@
 <script setup>
 import CommonMenu from './conponents/CommonMenu.vue'
-import {useTabStore} from "@/store/moudles/tab.js";
+import {usePermissionStore} from "@/store/moudles/permission.js";
 import {useCollapseStore} from "@/store/moudles/settings.js";
 
-const tabStore = useTabStore()
+const permissionStore = usePermissionStore()
 const collapseStore = useCollapseStore()
 
 </script>
@@ -27,7 +27,7 @@ const collapseStore = useCollapseStore()
           text-color="#969fa7"
           :collapse="collapseStore.isCollapse"
       >
-      <common-menu :menu-list="tabStore.route"/>
+      <common-menu :menu-list="permissionStore.routes"/>
       </el-menu>
     </el-scrollbar>
 
