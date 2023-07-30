@@ -107,7 +107,7 @@ const collapseStore = useCollapseStore()
   svg {
     width: 16px;
     height: 16px;
-    color: #409eff;
+    color: var(--el-color-primary);
     cursor: pointer;
   }
 }

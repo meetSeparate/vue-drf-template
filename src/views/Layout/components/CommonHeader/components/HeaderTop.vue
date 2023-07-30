@@ -1,12 +1,14 @@
 <script setup>
 import {useRouter} from "vue-router";
-import {ref} from "vue";
+import {ref, onMounted} from "vue";
 import {ElMessage} from "element-plus";
 import {useUserStore} from "@/store/moudles/user.js";
+import {useColorStore} from "@/store/moudles/settings.js";
 import DarkSwitch from '@/components/DarkSwitch/index.vue'
 
 const router = useRouter()
 const userStore = useUserStore()
+const colorStore = useColorStore()
 
 // 打开下拉菜单
 const dropdown = ref(null)
@@ -14,9 +16,9 @@ const showClick = () => {
   if (!dropdown.value) return
   dropdown.value.handleOpen()
 }
-
 const settingsVisible = ref(false)
-
+// 主题颜色
+const themeColor = ref(['#2406e8', '#07a3d7', '#f56c6c', '#1fcf92'])
 // 退出登录
 const onLogout = () => {
   userStore.onLogout()
@@ -29,7 +31,7 @@ const onLogout = () => {
     customClass: 'pure-message'
   })
 }
-
+onMounted(() => colorStore.setColor())
 </script>
 
 <template>
@@ -99,10 +101,25 @@ const onLogout = () => {
     </template>
     <div class="border"></div>
     <el-divider>
-      <span class="title">主题</span>
+      <span class="title">黑夜模式</span>
     </el-divider>
 
     <dark-switch />
+    <el-divider>
+      <span class="title">主题颜色</span>
+    </el-divider>
+    <div class="color-all">
+      <el-tooltip
+          v-for="item in themeColor"
+          class="box-item"
+          effect="dark"
+          :content="item"
+          placement="top"
+          :key="item">
+        <div class="color-item" :style="{backgroundColor: item}"></div>
+      </el-tooltip>
+      <el-color-picker v-model="colorStore.color" show-alpha @change="colorStore.setColor"/>
+    </div>
   </el-drawer>
 </template>
 
@@ -152,7 +169,6 @@ const onLogout = () => {
     }
   }
 }
-
 .el-dropdown-link {
   display: flex;
   align-items: center;
@@ -162,24 +178,20 @@ const onLogout = () => {
     margin-left: 5px;
   }
 }
-
 .border {
   width: 100%;
   border: 1px solid rgb(220, 223, 230);
 }
-
 .title {
   font-weight: 700;
   font-size: 16px;
 }
-
 .switch {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 .dark {
   .menu-item {
     display: flex;
@@ -216,6 +228,18 @@ const onLogout = () => {
         background: #333
       }
     }
+  }
+}
+.color-all {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  .color-item {
+    width: 25px;
+    height: 25px;
+    border-radius: 4px;
+    cursor: pointer;
   }
 }
 </style>

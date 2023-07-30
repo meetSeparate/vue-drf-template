@@ -274,7 +274,7 @@ const handleSignSuccess = () => {
 
   span {
     font-size: 14px;
-    color: #409eff;
+    color: var(--el-color-primary);
     cursor: pointer;
   }
 }

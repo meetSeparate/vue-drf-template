@@ -89,7 +89,7 @@ const handlerClose = (item, index) => {
 
       .el-icon {
         display: none;
-        color: #409eff;
+        color: var(--el-color-primary);
         transition: all .5s;
 
         &:hover {
@@ -131,7 +131,7 @@ const handlerClose = (item, index) => {
       color: #fff;
 
       a {
-        color: #409eff;
+        color: var(--el-color-primary);
       }
 
       .el-icon {

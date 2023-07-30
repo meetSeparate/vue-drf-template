@@ -14,7 +14,6 @@ export const useSettingStore = defineStore('settingStore', () => {
     }
 })
 
-
 export const useCollapseStore = defineStore('collapse', () => {
     // 控制折叠
     const isCollapse = ref(false)
@@ -27,5 +26,22 @@ export const useCollapseStore = defineStore('collapse', () => {
     return {
         isCollapse,
         collapseMenu
+    }
+})
+
+export const useColorStore = defineStore('colorStore', () => {
+    const color = ref(localStorage.getItem('color') || '#409eff')
+
+    const setColor = () => {
+        const el = document.documentElement
+        // 设置 css 变量
+        el.style.setProperty('--el-color-primary', color.value)
+        el.style.setProperty('--el-color-primary-light-3', color.value)
+        localStorage.setItem('color', color.value)
+    }
+
+    return {
+        color,
+        setColor
     }
 })

@@ -1,8 +1,6 @@
 import router from "@/router/index.js";
-import {usePermissionStore} from "@/store/moudles/permission.js";
 
 export const useRouterTemplate = () => {
-    const permissionStore = usePermissionStore()
 
     // 格式化路由
     const formatRoute = (menuAsyncRoute, modules) => {
@@ -17,12 +15,12 @@ export const useRouterTemplate = () => {
         })
     }
     // 动态注册路由
-    const addAsyncRoute = () => {
+    const addAsyncRoute = (routes) => {
         // 拿到所有匹配到的路由
         const modules = import.meta.glob('../views/**/*.vue')
         // 格式化路由（component），去掉二级菜单的children
-        formatRoute(permissionStore.menuAsyncRoute, modules)
-        permissionStore.menuAsyncRoute.forEach(item => {
+        formatRoute(routes, modules)
+        routes.forEach(item => {
             router.addRoute(item)
         })
     }

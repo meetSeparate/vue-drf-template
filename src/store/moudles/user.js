@@ -22,6 +22,8 @@ export const useUserStore = defineStore('user', () => {
         userinfo.value = {}
         localStorage.removeItem('asyncRoute')
         localStorage.removeItem('userinfo')
+        localStorage.removeItem('primitiveRoute')
+        localStorage.removeItem('color')
     }
 
     return {
