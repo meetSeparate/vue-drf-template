@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
+    "@iconify-icons/ri": "^1.2.10",
     "axios": "^1.4.0",
     "crypto-js": "^4.1.1",
     "element-plus": "^2.3.7",

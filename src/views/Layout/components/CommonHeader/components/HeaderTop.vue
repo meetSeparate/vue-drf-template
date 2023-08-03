@@ -6,6 +6,7 @@ import {useUserStore} from "@/store/moudles/user.js";
 import {useColorStore} from "@/store/moudles/settings.js";
 import DarkSwitch from '@/components/DarkSwitch/index.vue'
 import NoticeList from "@/components/Notice/NoticeList.vue";
+import {Search} from "@element-plus/icons-vue";
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -32,6 +33,7 @@ const onLogout = () => {
     customClass: 'pure-message'
   })
 }
+// 消息内容
 const noticesData = ref([
   {
     key: "1",
@@ -163,6 +165,18 @@ const noticesData = ref([
   }
 ])
 const activeKey = ref(noticesData.value[0].key)
+// 全文搜索
+const searchKeyword = ref('')
+const showDialog = ref(false)
+const resultOptions = ref([])
+function handleClose() {
+  showDialog.value = false;
+  /** 延时处理防止用户看到某些操作 */
+  setTimeout(() => {
+    resultOptions.value = [];
+    searchKeyword.value = "";
+  }, 200);
+}
 onMounted(() => colorStore.setColor())
 </script>
 
@@ -181,7 +195,7 @@ onMounted(() => colorStore.setColor())
     </el-breadcrumb>
 
     <div class="menu-item">
-      <el-icon class="search">
+      <el-icon class="search" @click="showDialog=true">
         <Search/>
       </el-icon>
 
@@ -276,6 +290,31 @@ onMounted(() => colorStore.setColor())
       <el-color-picker v-model="colorStore.color" show-alpha @change="colorStore.setColor"/>
     </div>
   </el-drawer>
+  <el-dialog
+      top="5vh"
+      width="50vw"
+      v-model="showDialog"
+      :before-close="handleClose"
+  >
+    <el-input
+        ref="inputRef"
+        v-model="searchKeyword"
+        clearable
+        placeholder="请输入关键词搜索"
+    >
+      <template #prefix>
+        <span class="el-input__icon">
+          <component :icon="Search" />
+        </span>
+      </template>
+    </el-input>
+    <div class="search-result-container">
+      <el-empty v-if="resultOptions.length === 0" description="暂无搜索结果" />
+    </div>
+    <template #footer>
+      <SearchFooter />
+    </template>
+  </el-dialog>
 </template>
 
 <style scoped lang="scss">
