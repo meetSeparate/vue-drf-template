@@ -3,11 +3,8 @@ import {ref, onMounted} from "vue";
 import {Search, Refresh, Edit, Delete, InfoFilled} from "@element-plus/icons-vue";
 import {useGetUserInfo, useAddUserInfo} from "@/views/User/composable/hooks.js";
 import {useGetCharacter} from "@/views/Permission/composable/hooks.js";
-
-const multipleSelection = ref([])
-const handleSelectionChange = (val) => {
-  multipleSelection.value = val
-}
+import {multiDeleteUserApi} from "@/api/multi.js";
+import {ElMessage} from "element-plus";
 
 // 获取用户信息
 const {userData, getUserAccount} = useGetUserInfo()
@@ -25,10 +22,8 @@ const {
 } = useAddUserInfo()
 // 获取角色信息
 const {getCharacterData, allCharacterData} = useGetCharacter()
-
 // 获取form表单ref
 const userFormRef = ref()
-
 // 分页操作
 // 分页配置
 const accountConfig = ref({
@@ -47,13 +42,37 @@ const handleCurrentChange = (val) => {
   accountConfig.value.currentPage = val
   getUserAccount(accountConfig.value)
 }
-
 // 重置搜索
 const resetSearch = () => {
   accountConfig.value.username = ''
   getUserAccount(accountConfig.value)
 }
-
+// 表格选中id列表
+const multipleSelection = ref([])
+// 改变选中id
+const handleSelectionChange = (val) => {
+  multipleSelection.value = val.map(item => item.id)
+}
+// 批量删除
+const multiDelete = () => {
+  ElMessageBox.confirm(
+      '确定要删除这些用户吗?',
+      'Warning',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  ).then(async () => {
+    await multiDeleteUserApi(multipleSelection.value)
+    ElMessage({
+      type: 'success',
+      message: '批量删除成功',
+      customClass: 'pure-message'
+    })
+    getUserAccount(accountConfig.value)
+  })
+}
 onMounted(() => {
   getUserAccount(accountConfig.value)
   getCharacterData({currentSize: 7, currentPage: 1})
@@ -82,7 +101,7 @@ onMounted(() => {
             <Plus/>
           </el-icon>
         </el-button>
-        <el-button type="danger" size="small">
+        <el-button type="danger" size="small" @click="multiDelete">
           批量删除
           <el-icon class="el-icon--right">
             <Delete/>

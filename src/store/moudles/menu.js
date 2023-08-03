@@ -2,7 +2,6 @@ import {defineStore} from "pinia";
 import {ref} from "vue";
 import {getMenu} from "@/api/menu.js";
 
-
 export const useMenuStore = defineStore('menuStore', () => {
     // 树形控件数据
     const dataSource = ref([])

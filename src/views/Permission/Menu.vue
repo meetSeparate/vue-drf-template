@@ -88,35 +88,69 @@ onMounted(() => {
 
 <template>
   <div class="padding">
-    <el-tree
-        :data="menuStore.dataSource"
-        node-key="value"
-        :props="menuStore.defaultProps"
-        :expand-on-click-node="false"
-    >
-      <template #default="{ node, data }">
-        <span class="custom-tree-node">
-          <span>{{ node.label }}</span>
-          <span>
-            <el-button type="success" size="small" :icon="Plus" circle plain @click="openAddDialog(data)"/>
-            <el-button type="primary" v-if="node.label !== '根节点'" size="small" @click="openEditDialog(data)" :icon="Edit" circle plain/>
-            <el-popconfirm
+    <el-card>
+      <el-scrollbar max-height="550px">
+        <el-table
+            :data="menuStore.dataSource"
+            style="width: 100%; margin-bottom: 20px"
+            row-key="value"
+            border
+            default-expand-all
+        >
+          <el-table-column prop="label" label="菜单名称" width="150px"/>
+          <el-table-column prop="another_name" label="菜单别名" width="100px" align="center"/>
+          <el-table-column prop="type" label="菜单类型" width="120px" align="center"/>
+          <el-table-column prop="reveal" label="是否显示" width="100px" align="center"/>
+          <el-table-column prop="path" label="菜单URL" width="140px"/>
+          <el-table-column prop="menu_name" label="菜单Name" width="100px" />
+          <el-table-column prop="component_address" label="组件地址" width="160px" />
+          <el-table-column prop="sequence" label="菜单顺序" width="80px" align="center"/>
+          <el-table-column prop="redirect" label="重定向" width="150px"/>
+          <el-table-column label="菜单Icon" width="80px" align="center">
+            <template #default="scope">
+              <div v-if="scope.row.menu_icon" style="display:flex;justify-content: center">
+                <component :is="scope.row.menu_icon" style="width: 20px;height: 20px"/>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="status" label="菜单状态" width="100px" />
+          <el-table-column prop="value" label="菜单id" width="80px" align="center"/>
+          <el-table-column prop="parent_menu_id" label="父菜单" width="80px" align="center"/>
+          <el-table-column fixed="right" label="操作" width="180px">
+            <template #default="scope">
+              <el-button
+                  v-if="scope.row.type!=='按钮'"
+                  type="success"
+                  size="small"
+                  :icon="Plus"
+                  circle
+                  @click="openAddDialog(scope.row)"
+              />
+              <el-button
+                  v-if="scope.row.type!=='根节点'"
+                  type="primary"
+                  size="small"
+                  @click="openEditDialog(scope.row)"
+                  :icon="Edit"
+                  circle
+              />
+              <el-popconfirm
+                  v-if="scope.row.type!=='根节点'"
                   confirm-button-text="确定"
                   cancel-button-text="取消"
                   icon-color="#626AEF"
                   title="确定删除吗?"
-                  v-if="node.label !== '根节点'"
-                  @confirm="deleteMenuData(data)"
+                  @confirm="deleteMenuData(scope.row)"
               >
-              <template #reference>
-                <el-button type="danger" size="small" :icon="Delete" circle plain/>
-              </template>
-            </el-popconfirm>
-
-          </span>
-        </span>
-      </template>
-    </el-tree>
+                <template #reference>
+                  <el-button type="danger" size="small" :icon="Delete" circle/>
+                </template>
+              </el-popconfirm>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-scrollbar>
+    </el-card>
     <el-dialog v-model="menuFormVisible" :title="title" :before-close="handlerClose">
       <el-form :model="menuForm" label-position="top" ref="menuRef" :rules="menuRules">
         <el-form-item label="菜单名称" prop="label">
@@ -211,31 +245,10 @@ onMounted(() => {
 .padding {
   padding: 20px;
 }
-
-.el-tree {
-  padding: 10px;
-  width: 600px;
-  color: #333;
-
-  .el-tree-node {
-    margin-bottom: 10px !important;
-  }
-
-  .custom-tree-node {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .el-button {
-    width: 18px;
-    height: 18px;
-  }
+.el-table {
+  font-size: 13px;
 }
-
-
-.el-icon {
-  width: 10px;
-  height: 10px;
+.el-button {
+  margin: 0 8px;
 }
 </style>

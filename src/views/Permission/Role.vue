@@ -5,6 +5,7 @@ import {useGetCharacter} from "@/views/Permission/composable/hooks.js";
 import {useMenuStore} from "@/store/moudles/menu.js";
 import {addCharacter, deleteCharacter, editCharacter} from "@/api/character.js";
 import {ElMessage} from "element-plus";
+import {multiDeleteRoleApi} from "@/api/multi.js";
 
 // 菜单仓库
 const menuStore = useMenuStore()
@@ -105,7 +106,33 @@ const viewNote = (row) => {
   note.value = row.note
   dialogNoteVisible.value = true
 }
-
+// 批量删除角色
+// 表格选中id列表
+const multipleSelection = ref([])
+// 改变选中id
+const handleSelectionChange = (val) => {
+  multipleSelection.value = val.map(item => item.id)
+}
+// 批量删除
+const multiDelete = () => {
+  ElMessageBox.confirm(
+      '确定要删除这些角色吗?',
+      'Warning',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  ).then(async () => {
+    await multiDeleteRoleApi(multipleSelection.value)
+    ElMessage({
+      type: 'success',
+      message: '批量删除成功',
+      customClass: 'pure-message'
+    })
+    getCharacterData(config.value)
+  })
+}
 onMounted(() => {
   getCharacterData(config.value)
   menuStore.getMenuData()
@@ -132,7 +159,7 @@ onMounted(() => {
     <el-card style="margin-top: 20px">
       <div class="operation">
         <el-button type="primary" size="small" :icon="Plus" @click="openAddCharacter">新增角色</el-button>
-        <el-button type="danger" size="small" :icon="Delete">批量删除</el-button>
+        <el-button type="danger" size="small" :icon="Delete" @click="multiDelete">批量删除</el-button>
       </div>
 
       <div class="table">
@@ -140,6 +167,7 @@ onMounted(() => {
             ref="multipleTableRef"
             :data="characterData"
             style="width: 100%"
+            @selection-change="handleSelectionChange"
         >
           <el-table-column fixed type="selection"/>
           <el-table-column property="id" label="Id" align="center"/>
