@@ -11,3 +11,9 @@ export const addAnnouncement = (data) => request({
     method: 'post',
     data: data
 })
+// 删除公告
+export const deleteAnnouncement = (id) => request({
+    url: '/api/announcement/',
+    method: 'delete',
+    data: {id}
+})

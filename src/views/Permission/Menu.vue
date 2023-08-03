@@ -37,6 +37,7 @@ const menuForm = ref({
   redirect: '',
   menu_name: '',
   component_address: '',
+  sequence: '2',
   menu_icon: '',
   status: '',
   parent_menu_id: '',
@@ -150,21 +151,26 @@ onMounted(() => {
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="路由URL" v-show="menuForm.type==='菜单' || menuForm.type==='目录'" prop="path">
-          <el-input v-model="menuForm.path" autocomplete="off" placeholder="路由URL"/>
-        </el-form-item>
-        <el-form-item label="路由Name" v-show="menuForm.type==='菜单' || menuForm.type==='目录'" prop="menu_name">
-          <el-input v-model="menuForm.menu_name" autocomplete="off" placeholder="路由Name"/>
-        </el-form-item>
-        <el-form-item label="组件地址" v-show="menuForm.type==='菜单' || menuForm.type==='目录'" prop="component_address">
-          <el-input v-model="menuForm.component_address" autocomplete="off" placeholder="组件地址"/>
-        </el-form-item>
-        <el-form-item label="目录重定向" v-show="menuForm.type==='菜单' || menuForm.type==='目录'" prop="redirect" >
-          <el-input v-model="menuForm.redirect" autocomplete="off" placeholder="组件地址"/>
-        </el-form-item>
-        <el-form-item label="菜单Icon" prop="menu_icon">
-          <el-input v-model="menuForm.menu_icon" autocomplete="off" placeholder="菜单Icon"/>
-        </el-form-item>
+        <template v-if="menuForm.type==='菜单' || menuForm.type==='目录'">
+          <el-form-item label="路由URL" prop="path">
+            <el-input v-model="menuForm.path" autocomplete="off" placeholder="路由URL"/>
+          </el-form-item>
+          <el-form-item label="路由Name" prop="menu_name">
+            <el-input v-model="menuForm.menu_name" autocomplete="off" placeholder="路由Name"/>
+          </el-form-item>
+          <el-form-item label="组件地址" prop="component_address">
+            <el-input v-model="menuForm.component_address" autocomplete="off" placeholder="组件地址"/>
+          </el-form-item>
+          <el-form-item label="菜单顺序" prop="sequence">
+            <el-input v-model="menuForm.sequence" autocomplete="off" placeholder="菜单顺序"/>
+          </el-form-item>
+          <el-form-item v-if="menuForm.type==='目录'" label="目录重定向" prop="redirect">
+            <el-input v-model="menuForm.redirect" autocomplete="off" placeholder="组件地址"/>
+          </el-form-item>
+          <el-form-item label="菜单Icon" prop="menu_icon">
+            <el-input v-model="menuForm.menu_icon" autocomplete="off" placeholder="菜单Icon"/>
+          </el-form-item>
+        </template>
         <el-form-item label="菜单状态" prop="status">
           <el-select v-model="menuForm.status" class="m-2" placeholder="菜单状态">
             <el-option

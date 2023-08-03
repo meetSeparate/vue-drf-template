@@ -1,15 +1,20 @@
 <script setup>
+import {Delete, InfoFilled} from "@element-plus/icons-vue";
+
 defineProps({
   loading: Boolean,
 })
 
 import {useAnnouncement} from "@/views/Home/composable/hooks.js";
+import {useUserStore} from "@/store/moudles/user.js";
 
+const userStore = useUserStore()
 const {
   announcementVisible,
   announcementData,
   announcementForm,
   options,
+  deleteAnno,
   addAnnouncementData
 } = useAnnouncement()
 
@@ -21,7 +26,11 @@ const {
       <template #header>
         <div class="card-header">
           <span>系统公告</span>
-          <el-button class="button" size="small" type="primary" @click="announcementVisible=true">增加公告</el-button>
+          <el-button
+              v-if="userStore.userinfo.role==='管理员'"
+              class="button" size="small" type="primary"
+              @click="announcementVisible=true"
+          >增加公告</el-button>
         </div>
       </template>
       <el-skeleton animated :rows="8" :loading="loading">
@@ -36,7 +45,28 @@ const {
                   :size="activity.size"
                   :timestamp="activity.timestamp"
               >
-                {{ activity.content }}
+                <div style="position: relative">
+                  <span>{{ activity.content }}</span>
+                  <el-popconfirm
+                      v-if="userStore.userinfo.role==='管理员'"
+                      width="220"
+                      confirm-button-text="OK"
+                      cancel-button-text="No, Thanks"
+                      :icon="InfoFilled"
+                      icon-color="#626AEF"
+                      title="Are you sure to delete this?"
+                      @confirm="deleteAnno(activity.id)"
+                  >
+                    <template #reference>
+                      <el-button
+                          style="position: absolute;right: 10px"
+                          type="danger"
+                          :icon="Delete"
+                          link
+                      ></el-button>
+                    </template>
+                  </el-popconfirm>
+                </div>
               </el-timeline-item>
             </el-timeline>
           </el-scrollbar>

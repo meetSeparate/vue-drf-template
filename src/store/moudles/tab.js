@@ -31,4 +31,4 @@ export const useTabStore = defineStore('tab', () => {
         skipRouter,
         closeTab
     }
-})
+}, {persist: true})

@@ -1,6 +1,6 @@
 import {ref, onMounted} from "vue";
 import {getPersonal, editPersonal} from "@/api/personal.js";
-import {getAnnouncement, addAnnouncement} from "@/api/announcement.js";
+import {getAnnouncement, addAnnouncement, deleteAnnouncement} from "@/api/announcement.js";
 import {useAddUserInfo, useGetUserInfo} from "@/views/User/composable/hooks.js";
 import {useUserStore} from "@/store/moudles/user.js";
 
@@ -111,6 +111,16 @@ export const useAnnouncement = () => {
         })
         getAnnouncementData()
     }
+    // 删除公告
+    const deleteAnno = async (id) => {
+        await deleteAnnouncement(id)
+        ElMessage({
+            type: 'success',
+            message: 'success',
+            customClass: 'pure-message'
+        })
+        getAnnouncementData()
+    }
 
     onMounted(() => getAnnouncementData())
 
@@ -119,6 +129,7 @@ export const useAnnouncement = () => {
         announcementVisible,
         announcementForm,
         options,
+        deleteAnno,
         addAnnouncementData
     }
 }
