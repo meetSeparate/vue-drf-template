@@ -118,6 +118,11 @@ const {
 </template>
 
 <style scoped lang="scss">
+.el-col {
+  padding: 0 12px;
+  margin-bottom: 20px;
+}
+
 .el-timeline {
   padding: 10px;
 }
