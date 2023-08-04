@@ -6,7 +6,7 @@ import CommonView from './components/CommonView/index.vue'
 </script>
 
 <template>
-  <el-container style="width: 100%;height: 100%">
+  <el-container class="container">
     <common-aside/>
     <el-container class="common-container">
       <common-header/>
@@ -18,6 +18,10 @@ import CommonView from './components/CommonView/index.vue'
 </template>
 
 <style scoped lang="scss">
+.container {
+  width: 100%;
+  height: 100%
+}
 
 .common-container {
   display: flex;

@@ -1,6 +1,5 @@
 <script setup>
 import vueDanmaku from 'vue3-danmaku'
-import {ref} from "vue";
 import {useEditPersonal, useGetPersonal} from "@/views/Home/composable/hooks.js";
 
 const danmus = [

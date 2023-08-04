@@ -6,7 +6,8 @@ import {useUserStore} from "@/store/moudles/user.js";
 import {useColorStore} from "@/store/moudles/settings.js";
 import DarkSwitch from '@/components/DarkSwitch/index.vue'
 import NoticeList from "@/components/Notice/NoticeList.vue";
-import {Search} from "@element-plus/icons-vue";
+import SearchFooter from "@/components/Search/SearchFooter.vue";
+import {Bell, Search, Setting, SwitchButton} from "@element-plus/icons-vue";
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -196,14 +197,14 @@ onMounted(() => colorStore.setColor())
 
     <div class="menu-item">
       <el-icon class="search" @click="showDialog=true">
-        <Search/>
+        <search />
       </el-icon>
 
       <el-dropdown trigger="click" placement="bottom-end">
         <span class="dropdown-badge navbar-bg-hover select-none">
           <el-icon class="bell">
             <el-badge :value="100" :max="99" class="item">
-              <Bell/>
+              <bell />
             </el-badge>
           </el-icon>
         </span>
@@ -217,7 +218,7 @@ onMounted(() => colorStore.setColor())
                 >
                   <el-scrollbar max-height="330px">
                     <div class="noticeList-container">
-                      <NoticeList :list="item.list" />
+                      <notice-list :list="item.list" />
                     </div>
                   </el-scrollbar>
                 </el-tab-pane>
@@ -236,16 +237,13 @@ onMounted(() => colorStore.setColor())
                 class="mr-3"
                 src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
             />
-
-            <span>
-                    {{ userStore.userinfo.username }}
-                  </span>
+            <span>{{ userStore.userinfo.username }}</span>
           </div>
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item @click="onLogout">
                 <el-icon>
-                  <SwitchButton/>
+                  <switch-button />
                 </el-icon>
                 退出系统
               </el-dropdown-item>
@@ -255,7 +253,7 @@ onMounted(() => colorStore.setColor())
       </div>
 
       <el-icon class="search" @click="settingsVisible=true">
-        <Setting/>
+        <setting />
       </el-icon>
     </div>
   </div>
@@ -304,7 +302,7 @@ onMounted(() => colorStore.setColor())
     >
       <template #prefix>
         <span class="el-input__icon">
-          <component :icon="Search" />
+          <el-icon><Search /></el-icon>
         </span>
       </template>
     </el-input>
@@ -312,7 +310,7 @@ onMounted(() => colorStore.setColor())
       <el-empty v-if="resultOptions.length === 0" description="暂无搜索结果" />
     </div>
     <template #footer>
-      <SearchFooter />
+      <search-footer />
     </template>
   </el-dialog>
 </template>

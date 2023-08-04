@@ -1,10 +1,10 @@
 <script setup>
 import {ref} from 'vue'
-import Personal from "@/views/Home/components/Personal.vue";
-import Announcement from "@/views/Home/components/Announcement.vue";
-import CompositeIndex from "@/views/Home/components/CompositeIndex.vue";
-import BrowserRatioChart from "@/views/Home/components/BrowserRatioChart.vue";
-import GithubClockInChart from "@/views/Home/components/GithubClockInChart.vue";
+import Personal from "./components/Personal.vue";
+import Announcement from "./components/Announcement.vue";
+import CompositeIndex from "./components/CompositeIndex.vue";
+import BrowserRatioChart from "./components/BrowserRatioChart.vue";
+import GithubClockInChart from "./components/GithubClockInChart.vue";
 
 // 骨架加载屏
 const loading = ref(true)
@@ -52,7 +52,7 @@ setTimeout(() => {
         :md="12"
         :lg="8"
         :xl="8">
-        <composite-index />
+        <composite-index :loading="loading" />
       </el-col>
       <el-col
         :xs="24"
@@ -60,7 +60,7 @@ setTimeout(() => {
         :md="12"
         :lg="8"
         :xl="8">
-        <browser-ratio-chart />
+        <browser-ratio-chart :loading="loading" />
       </el-col>
       <el-col
         :xs="24"
@@ -68,7 +68,7 @@ setTimeout(() => {
         :md="12"
         :lg="8"
         :xl="8">
-        <github-clock-in-chart />
+        <github-clock-in-chart :loading="loading" />
       </el-col>
     </el-row>
   </el-scrollbar>

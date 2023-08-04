@@ -9,7 +9,7 @@ const initChart = () => {
 
   option = {
     title: {
-      text: 'Proportion of Browsers',
+      name: 'Proportion of Browsers',
       subtext: 'Fake Data',
       top: 10,
       left: 10
@@ -20,13 +20,6 @@ const initChart = () => {
     legend: {
       type: 'scroll',
       bottom: 10,
-      data: (function () {
-        var list = [];
-        for (var i = 1; i <= 28; i++) {
-          list.push(i + 2000 + '');
-        }
-        return list;
-      })()
     },
     visualMap: {
       top: 'middle',
@@ -36,16 +29,16 @@ const initChart = () => {
     },
     radar: {
       indicator: [
-        { text: 'IE8-', max: 400 },
-        { text: 'IE9+', max: 400 },
-        { text: 'Safari', max: 400 },
-        { text: 'Firefox', max: 400 },
-        { text: 'Chrome', max: 400 }
+        { name: 'IE8-'},
+        { name: 'IE9+'},
+        { name: 'Safari'},
+        { name: 'Firefox'},
+        { name: 'Chrome'}
       ]
     },
     series: (function () {
-      var series = [];
-      for (var i = 1; i <= 28; i++) {
+      let series = [];
+      for (let i = 1; i <= 28; i++) {
         series.push({
           type: 'radar',
           symbol: 'none',
