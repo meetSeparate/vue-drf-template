@@ -21,6 +21,7 @@
     "pinia": "^2.1.4",
     "pinia-plugin-persistedstate": "^3.2.0",
     "sass": "^1.63.6",
+    "typeit": "^8.7.1",
     "vue": "^3.2.41",
     "vue-router": "^4.2.4",
     "vue3-danmaku": "^1.4.0"

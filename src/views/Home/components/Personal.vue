@@ -1,6 +1,7 @@
 <script setup>
 import vueDanmaku from 'vue3-danmaku'
 import {useEditPersonal, useGetPersonal} from "@/views/Home/composable/hooks.js";
+import TypeIt from '@/components/ReTypeit/inex.js'
 
 const danmus = [
   {
@@ -45,7 +46,12 @@ defineProps({
   <el-card class="box-card">
       <template #header>
         <div class="card-header">
-          <span>个人信息</span>
+          <TypeIt
+              :className="'type-it1'"
+              :values="['个人信息']"
+              :cursor="false"
+              :speed="80"
+          />
           <el-button class="button" size="small" type="primary" @click="editFormVisible=true">修改个人信息</el-button>
         </div>
       </template>

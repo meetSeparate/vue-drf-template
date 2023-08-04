@@ -5,12 +5,13 @@ import Announcement from "./components/Announcement.vue";
 import CompositeIndex from "./components/CompositeIndex.vue";
 import BrowserRatioChart from "./components/BrowserRatioChart.vue";
 import GithubClockInChart from "./components/GithubClockInChart.vue";
+import TypeIt from "@/components/ReTypeit/inex.js";
 
 // 骨架加载屏
 const loading = ref(true)
 setTimeout(() => {
   loading.value = !loading.value;
-}, 800);
+}, 800)
 
 </script>
 
@@ -24,7 +25,12 @@ setTimeout(() => {
             src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
         />
 
-        <span class="type-it0">时光不老，我们不散😃！</span>
+        <TypeIt
+            :className="'type-it0'"
+            :values="['时光不老，我们不散😃！']"
+            :cursor="false"
+            :speed="60"
+        />
       </div>
     </el-card>
     <el-row>
@@ -52,7 +58,15 @@ setTimeout(() => {
         :md="12"
         :lg="8"
         :xl="8">
-        <el-card header="2023年上证指数">
+        <el-card>
+          <template #header>
+            <TypeIt
+                :className="'type-it3'"
+                :values="['2023年上证指数']"
+                :cursor="false"
+                :speed="120"
+            />
+          </template>
           <el-skeleton :rows="7" animated :loading="loading">
             <composite-index />
           </el-skeleton>
@@ -64,7 +78,15 @@ setTimeout(() => {
         :md="12"
         :lg="8"
         :xl="8">
-        <el-card header="浏览器占比变化">
+        <el-card>
+          <template #header>
+            <TypeIt
+                :className="'type-it4'"
+                :values="['浏览器占比变化']"
+                :cursor="false"
+                :speed="120"
+            />
+          </template>
           <el-skeleton :rows="7" animated :loading="loading">
             <browser-ratio-chart />
           </el-skeleton>
@@ -76,7 +98,15 @@ setTimeout(() => {
         :md="12"
         :lg="8"
         :xl="8">
-        <el-card header="Github打卡数据">
+        <el-card>
+          <template #header>
+            <TypeIt
+                :className="'type-it5'"
+                :values="['Github打卡数据']"
+                :cursor="false"
+                :speed="120"
+            />
+          </template>
           <el-skeleton :rows="7" animated :loading="loading">
             <github-clock-in-chart />
           </el-skeleton>

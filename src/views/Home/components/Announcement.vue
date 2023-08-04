@@ -1,13 +1,13 @@
 <script setup>
 import {Delete, InfoFilled} from "@element-plus/icons-vue";
+import {useAnnouncement} from "@/views/Home/composable/hooks.js";
+import {useUserStore} from "@/store/moudles/user.js";
+import TypeIt from "@/components/ReTypeit/inex.js";
+
 
 defineProps({
   loading: Boolean,
 })
-
-import {useAnnouncement} from "@/views/Home/composable/hooks.js";
-import {useUserStore} from "@/store/moudles/user.js";
-
 const userStore = useUserStore()
 const {
   announcementVisible,
@@ -24,7 +24,12 @@ const {
   <el-card>
       <template #header>
         <div class="card-header">
-          <span>系统公告</span>
+          <TypeIt
+              :className="'type-it2'"
+              :values="['系统公告']"
+              :cursor="false"
+              :speed="80"
+          />
           <el-button
               v-if="userStore.userinfo.role==='管理员'"
               class="button" size="small" type="primary"
