@@ -53,7 +53,7 @@ const noticesData = ref([
       {
         avatar:
             "https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png",
-        title: "你推荐的 前端高手 已通过第三轮面试",
+        title: "本月工资已到账，请注意查收",
         datetime: "一年前",
         description: "",
         type: "1"
