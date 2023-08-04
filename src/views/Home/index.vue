@@ -12,7 +12,6 @@ const loading = ref(true)
 setTimeout(() => {
   loading.value = !loading.value;
 }, 800)
-
 </script>
 
 <template>
@@ -114,7 +113,6 @@ setTimeout(() => {
       </el-col>
     </el-row>
   </el-scrollbar>
-
 </template>
 
 <style scoped lang="scss">
