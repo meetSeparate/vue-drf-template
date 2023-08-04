@@ -1,10 +1,12 @@
 <script setup>
 import * as echarts from 'echarts';
-import {onMounted} from 'vue'
+import {ref, onMounted} from 'vue'
+
+
+const compositeChart = ref()
 
 const chartInit = () => {
-  const chartDom = document.getElementById('compositeChart');
-  const myChart = echarts.init(chartDom);
+  const myChart = echarts.init(compositeChart.value);
   let option;
 
 // prettier-ignore
@@ -140,12 +142,11 @@ const chartInit = () => {
 }
 
 onMounted(() => chartInit())
+
 </script>
 
 <template>
-  <el-card header="2023年上证指数">
-    <div id="compositeChart" style="width: 100%; height: 35vh;"></div>
-  </el-card>
+  <div ref="compositeChart" style="width: 100%; height: 35vh;"></div>
 </template>
 
 <style scoped lang="scss">

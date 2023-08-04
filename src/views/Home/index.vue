@@ -52,7 +52,11 @@ setTimeout(() => {
         :md="12"
         :lg="8"
         :xl="8">
-        <composite-index :loading="loading" />
+        <el-card header="2023年上证指数">
+          <el-skeleton :rows="7" animated :loading="loading">
+            <composite-index />
+          </el-skeleton>
+        </el-card>
       </el-col>
       <el-col
         :xs="24"
@@ -60,7 +64,11 @@ setTimeout(() => {
         :md="12"
         :lg="8"
         :xl="8">
-        <browser-ratio-chart :loading="loading" />
+        <el-card header="浏览器占比变化">
+          <el-skeleton :rows="7" animated :loading="loading">
+            <browser-ratio-chart />
+          </el-skeleton>
+        </el-card>
       </el-col>
       <el-col
         :xs="24"
@@ -68,7 +76,11 @@ setTimeout(() => {
         :md="12"
         :lg="8"
         :xl="8">
-        <github-clock-in-chart :loading="loading" />
+        <el-card header="Github打卡数据">
+          <el-skeleton :rows="7" animated :loading="loading">
+            <github-clock-in-chart />
+          </el-skeleton>
+        </el-card>
       </el-col>
     </el-row>
   </el-scrollbar>

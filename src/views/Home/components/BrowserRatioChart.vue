@@ -1,11 +1,11 @@
 <script setup>
-import * as echarts from 'echarts';
-import {onMounted} from "vue";
+import * as echarts from 'echarts'
+import {ref, onMounted} from 'vue'
 
+const browserChart = ref()
 const initChart = () => {
-  var chartDom = document.getElementById('browserChart');
-  var myChart = echarts.init(chartDom);
-  var option;
+  const myChart = echarts.init(browserChart.value)
+  let option
 
   option = {
     title: {
@@ -66,9 +66,9 @@ const initChart = () => {
       }
       return series;
     })()
-  };
+  }
 
-  option && myChart.setOption(option);
+  option && myChart.setOption(option)
 
 }
 
@@ -76,9 +76,7 @@ onMounted(() => initChart())
 </script>
 
 <template>
-  <el-card header="浏览器占比变化">
-    <div id="browserChart" style="width: 100%; height: 35vh"></div>
-  </el-card>
+  <div ref="browserChart" style="width: 100%; height: 35vh"></div>
 </template>
 
 <style scoped lang="scss">
