@@ -1,5 +1,5 @@
 <script setup>
-import Error from './components/index.vue'
+import Error from './components/error.vue'
 </script>
 
 <template>

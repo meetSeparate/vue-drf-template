@@ -17,13 +17,11 @@ watch(() => settingStore.refresh, () => {
 </script>
 
 <template>
-  <el-scrollbar max-height="800px">
-    <router-view v-slot="{ Component }">
-      <transition name="scale" mode="out-in">
-        <component :is="Component" v-if="flag"/>
-      </transition>
-    </router-view>
-  </el-scrollbar>
+  <router-view v-slot="{ Component }">
+    <transition name="scale" mode="out-in">
+      <component :is="Component" v-if="flag"/>
+    </transition>
+  </router-view>
 </template>
 
 <style scoped lang="scss">
