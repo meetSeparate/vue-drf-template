@@ -21,8 +21,7 @@ const {
 </script>
 
 <template>
-  <el-col :span="12">
-    <el-card>
+  <el-card>
       <template #header>
         <div class="card-header">
           <span>系统公告</span>
@@ -73,7 +72,6 @@ const {
         </template>
       </el-skeleton>
     </el-card>
-  </el-col>
 
   <el-dialog v-model="announcementVisible" title="新增公告">
     <el-form :model="announcementForm" label-position="top">
@@ -118,10 +116,6 @@ const {
 </template>
 
 <style scoped lang="scss">
-.el-col {
-  padding: 0 12px;
-  margin-bottom: 20px;
-}
 
 .el-timeline {
   padding: 10px;

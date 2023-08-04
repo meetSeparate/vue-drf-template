@@ -6,7 +6,7 @@ import CommonView from './components/CommonView/index.vue'
 </script>
 
 <template>
-  <el-container>
+  <el-container style="width: 100%;height: 100%">
     <common-aside/>
     <el-container class="common-container">
       <common-header/>

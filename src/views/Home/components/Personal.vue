@@ -43,8 +43,7 @@ defineProps({
 </script>
 
 <template>
-  <el-col :span="12">
-    <el-card class="box-card">
+  <el-card class="box-card">
       <template #header>
         <div class="card-header">
           <span>个人信息</span>
@@ -72,7 +71,7 @@ defineProps({
             <template #label>
               <div class="cell-item">
                 <el-icon>
-                  <PhoneFilled/>
+                  <PhoneFilled />
                 </el-icon>
                 手机号
               </div>
@@ -153,7 +152,6 @@ defineProps({
         </vue-danmaku>
       </el-skeleton>
     </el-card>
-  </el-col>
 
   <el-dialog
       v-model="editFormVisible"
@@ -209,15 +207,10 @@ defineProps({
 </template>
 
 <style scoped lang="scss">
-.el-col {
-  padding: 0 12px;
-  margin-bottom: 20px;
-
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .cell-item {
