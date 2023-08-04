@@ -3,6 +3,7 @@ import {useRouter} from "vue-router";
 import {ref, onMounted} from "vue";
 import {ElMessage} from "element-plus";
 import {useUserStore} from "@/store/moudles/user.js";
+import {useSettingStore} from "@/store/moudles/settings.js";
 import {useColorStore} from "@/store/moudles/settings.js";
 import DarkSwitch from '@/components/DarkSwitch/index.vue'
 import NoticeList from "@/components/Notice/NoticeList.vue";
@@ -12,6 +13,7 @@ import {Bell, Search, Setting, SwitchButton} from "@element-plus/icons-vue";
 const router = useRouter()
 const userStore = useUserStore()
 const colorStore = useColorStore()
+const settingStore = useSettingStore()
 
 // 打开下拉菜单
 const dropdown = ref(null)
@@ -192,7 +194,6 @@ onMounted(() => colorStore.setColor())
       >
         {{ item.meta.title }}
       </el-breadcrumb-item>
-
     </el-breadcrumb>
 
     <div class="menu-item">
@@ -203,8 +204,8 @@ onMounted(() => colorStore.setColor())
       <el-dropdown trigger="click" placement="bottom-end">
         <span class="dropdown-badge navbar-bg-hover select-none">
           <el-icon class="bell">
-            <el-badge :value="100" :max="99" class="item">
-              <bell />
+            <el-badge :value="13" :max="99" class="item">
+              <bell style="width: 18px;height: 18px" />
             </el-badge>
           </el-icon>
         </span>
@@ -228,7 +229,29 @@ onMounted(() => colorStore.setColor())
         </template>
       </el-dropdown>
 
-
+      <el-dropdown trigger="click">
+        <span class="el-dropdown-link">
+          <el-icon class="search">
+            <svg-icon name="globalization" width="18px" height="18px"/>
+          </el-icon>
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu >
+            <el-dropdown-item
+              :class="{active: settingStore.language==='zh-cn'}"
+              @click="settingStore.toggleLocale('zh-cn')"
+            >
+              简体中文
+            </el-dropdown-item>
+            <el-dropdown-item
+              :class="{active: settingStore.language==='en'}"
+              @click="settingStore.toggleLocale('en')"
+            >
+              English
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
       <div class="user">
         <el-dropdown ref="dropdown" trigger="contextmenu">
           <div class="el-dropdown-link" @click="showClick">
@@ -337,7 +360,7 @@ onMounted(() => colorStore.setColor())
       }
     }
     .bell {
-      width: 50px;
+      width: 60px;
       height: 48px;
       cursor: pointer;
 
@@ -349,7 +372,7 @@ onMounted(() => colorStore.setColor())
       height: 48px;
       display: flex;
       align-items: center;
-      padding: 10px;
+      padding: 5px;
       justify-content: center;
 
       &:hover {
@@ -371,6 +394,13 @@ onMounted(() => colorStore.setColor())
     margin-left: 5px;
   }
 }
+:deep(.el-dropdown-menu__item) {
+  padding: 5px 20px;
+}
+:deep(.el-dropdown-menu__item.active) {
+  background-color: var(--el-color-primary);
+  color: #fff;
+}
 .border {
   width: 100%;
   border: 1px solid rgb(220, 223, 230);
@@ -385,6 +415,7 @@ onMounted(() => colorStore.setColor())
   align-items: center;
   justify-content: center;
 }
+
 .dark {
   .menu-item {
     display: flex;
@@ -461,15 +492,5 @@ onMounted(() => colorStore.setColor())
   :deep(.el-tabs__nav-wrap)::after {
     height: 1px;
   }
-  //
-  //// 如果上面的 notices 长度大于 3 请注释掉下面代码
-  //:deep(.el-tabs__nav-wrap) {
-  //  padding: 0 36px 0 36px;
-  //}
-  //
-  //// 如果上面的 notices 长度大于 3 请注释掉下面代码
-  //:deep(.el-tabs__active-bar) {
-  //  margin: 0 36px 0 36px;
-  //}
 }
 </style>

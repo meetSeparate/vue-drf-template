@@ -1,16 +1,29 @@
 import {defineStore} from "pinia";
-import {ref} from 'vue'
+import {ref, computed} from 'vue'
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+import en from 'element-plus/dist/locale/en.mjs'
 
 export const useSettingStore = defineStore('settingStore', () => {
+    // 刷新组件页面
     const refresh = ref(false)
-
+    // ElementPlus国际化
+    const language = ref('zh-cn')
+    const locale = computed(() => (language.value === 'zh-cn' ? zhCn : en))
+    // 刷新按钮
     const changeRefresh = () => {
         refresh.value = !refresh.value
+    }
+    // 切换语言配置
+    const toggleLocale = (info) => {
+        language.value = info
     }
 
     return {
         refresh,
-        changeRefresh
+        locale,
+        language,
+        changeRefresh,
+        toggleLocale
     }
 })
 
