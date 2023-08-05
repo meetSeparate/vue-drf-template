@@ -8,6 +8,7 @@ import {useColorStore} from "@/store/moudles/settings.js";
 import DarkSwitch from '@/components/DarkSwitch/index.vue'
 import NoticeList from "@/components/Notice/NoticeList.vue";
 import SearchFooter from "@/components/Search/SearchFooter.vue";
+import {changePasswordApi} from "@/api/password.js";
 import {Bell, Search, Setting, SwitchButton} from "@element-plus/icons-vue";
 
 const router = useRouter()
@@ -180,6 +181,60 @@ function handleClose() {
     searchKeyword.value = "";
   }, 200);
 }
+// 修改密码
+const passwordVisible = ref(false)
+const passwordForm = ref({
+  oldPassword: '',
+  newPassword: '',
+  rePassword: ''
+})
+const passwordRef = ref()
+// 关闭前回调
+const passwordClose = () => {
+  passwordVisible.value=false
+  setTimeout(() => {
+    passwordRef.value.resetFields()
+  }, 200)
+}
+// 检查确认密码
+// 检查手机号信息
+const checkRePassword = (rule, value, callback) => {
+  if (passwordForm.value.newPassword===value) {
+    // 确认密码与密码一致
+    return callback()
+  }
+  callback(new Error('确认密码与输入不一致'))
+}
+// 表单验证规则
+const passwordRule = ref({
+  oldPassword: [{required: true, message: '请输入原密码', trigger: 'blur'}],
+  newPassword: [{required: true, message: '请输入新密码', trigger: 'blur'}],
+  rePassword: [
+      {required: true, message: '请输入确认密码', trigger: 'blur'},
+      {validator: checkRePassword, trigger: 'blur'}
+  ]
+})
+// 修改密码
+const changePassword = async () => {
+  if (!passwordRef.value) return
+  await passwordRef.value.validate(async (valid) => {
+    if (valid) {
+      await changePasswordApi(passwordForm.value)
+      ElMessage({
+        type: 'success',
+        message: '修改成功',
+        customClass: 'pure-message'
+      })
+      passwordClose()
+    } else {
+      ElMessage({
+        type: 'error',
+        message: '请输入正确信息',
+        customClass: 'pure-message'
+      })
+    }
+  })
+}
 onMounted(() => colorStore.setColor())
 </script>
 
@@ -264,6 +319,10 @@ onMounted(() => colorStore.setColor())
           </div>
           <template #dropdown>
             <el-dropdown-menu>
+              <el-dropdown-item @click="passwordVisible=true">
+                <el-icon><Edit /></el-icon>
+                修改密码
+              </el-dropdown-item>
               <el-dropdown-item @click="onLogout">
                 <el-icon>
                   <switch-button />
@@ -336,6 +395,26 @@ onMounted(() => colorStore.setColor())
       <search-footer />
     </template>
   </el-dialog>
+  <el-dialog v-model="passwordVisible" title="修改密码" :before-close="passwordClose">
+  <el-form ref="passwordRef" :model="passwordForm" :rules="passwordRule" label-position="top">
+    <el-form-item label="原密码" prop="oldPassword">
+      <el-input v-model="passwordForm.oldPassword" placeholder="原密码" autocomplete="off" />
+    </el-form-item>
+    <el-form-item label="新密码" prop="newPassword">
+      <el-input v-model="passwordForm.newPassword" placeholder="新密码" autocomplete="off" />
+    </el-form-item>
+    <el-form-item label="确认密码" prop="rePassword">
+      <el-input v-model="passwordForm.rePassword" placeholder="确认密码" autocomplete="off" />
+    </el-form-item>
+  </el-form>
+  <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="passwordClose">取消</el-button>
+        <el-button type="primary" @click="changePassword">确定</el-button>
+      </span>
+  </template>
+</el-dialog>
+
 </template>
 
 <style scoped lang="scss">
