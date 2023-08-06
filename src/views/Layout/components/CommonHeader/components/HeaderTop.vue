@@ -1,6 +1,6 @@
 <script setup>
 import {useRouter} from "vue-router";
-import {ref, onMounted} from "vue";
+import {ref, onMounted, computed} from "vue";
 import {ElMessage} from "element-plus";
 import {useUserStore} from "@/store/moudles/user.js";
 import {useSettingStore} from "@/store/moudles/settings.js";
@@ -10,11 +10,15 @@ import NoticeList from "@/components/Notice/NoticeList.vue";
 import SearchFooter from "@/components/Search/SearchFooter.vue";
 import {changePasswordApi} from "@/api/password.js";
 import {Bell, Search, Setting, SwitchButton} from "@element-plus/icons-vue";
+import {useTabStore} from "@/store/moudles/tab.js";
+import { onKeyStroke } from "@vueuse/core";
+import util from "@/utils/index.js";
 
 const router = useRouter()
 const userStore = useUserStore()
 const colorStore = useColorStore()
 const settingStore = useSettingStore()
+const tabStore = useTabStore()
 
 // 打开下拉菜单
 const dropdown = ref(null)
@@ -235,6 +239,44 @@ const changePassword = async () => {
     }
   })
 }
+// 全文搜索
+const activeIndex = ref(0)
+// 当前选中的搜索对象
+const activePath = computed(() => {
+  return resultOptions.value[activeIndex.value]
+})
+const searchEvent = () => {
+  const routeData = router.getRoutes()
+  resultOptions.value = routeData.filter(ele => {
+    if (ele.meta.title !== '登录' && searchKeyword.value) {
+      return ele.meta.title.indexOf(searchKeyword.value) !== -1
+    }
+  })
+}
+// 搜索防抖函数
+const debounceSearch = util.debounce(searchEvent, 1000)
+// 改变选中
+const changeActive = (index) => {
+  activeIndex.value = index
+}
+// 跳转页面
+const handleJump = () => {
+  tabStore.skipRouter(activePath.value)
+  router.push(activePath.value.path)
+  passwordClose()
+}
+const handleUp = () => {
+  if (activeIndex.value === 0) return
+  activeIndex.value --
+}
+const handleDown = () => {
+  if (activeIndex.value === resultOptions.value.length-1) return
+  activeIndex.value ++
+}
+
+onKeyStroke("Enter", handleJump)
+onKeyStroke("ArrowUp", handleUp)
+onKeyStroke("ArrowDown", handleDown)
 onMounted(() => colorStore.setColor())
 </script>
 
@@ -381,6 +423,7 @@ onMounted(() => colorStore.setColor())
         v-model="searchKeyword"
         clearable
         placeholder="请输入关键词搜索"
+        @input="debounceSearch"
     >
       <template #prefix>
         <span class="el-input__icon">
@@ -390,6 +433,18 @@ onMounted(() => colorStore.setColor())
     </el-input>
     <div class="search-result-container">
       <el-empty v-if="resultOptions.length === 0" description="暂无搜索结果" />
+      <div class="search-result" v-else>
+        <div
+          v-for="(item, index) of resultOptions"
+          class="search-item"
+          :class="{active: activeIndex===index}"
+          @click="handleJump()"
+          @mouseenter="changeActive(index)"
+        >
+          <component :is="item.meta.icon||'Tickets'"/>
+          <span class="title">{{item.meta.title}}</span>
+        </div>
+      </div>
     </div>
     <template #footer>
       <search-footer />
@@ -494,7 +549,6 @@ onMounted(() => colorStore.setColor())
   align-items: center;
   justify-content: center;
 }
-
 .dark {
   .menu-item {
     display: flex;
@@ -571,5 +625,31 @@ onMounted(() => colorStore.setColor())
   :deep(.el-tabs__nav-wrap)::after {
     height: 1px;
   }
+}
+.search-result {
+  margin-top: 20px;
+}
+.search-item {
+  width: 100%;
+  height: 56px;
+  padding: 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  font-size: 14px;
+  transition: all 0.3s;
+  border: 0.1px solid #ccc;
+  svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+  }
+
+}
+.search-item.active {
+  background-color: var(--el-color-primary);
+  color: #fff;
 }
 </style>

@@ -15,6 +15,7 @@ const routes = [
         component: () => import('../views/Layout/index.vue'),
         redirect: '/layout/home',
         meta: {
+            title: '首页',
             isMenu: true
         },
         children: [
