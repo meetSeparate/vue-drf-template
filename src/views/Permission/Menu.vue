@@ -46,24 +46,29 @@ const menuForm = ref({
 const menuRules = ref({
   label: [{required: true, message: '请输入菜单名称', trigger: 'blur'}],
   type: [{required: true, message: '请选择菜单类型', trigger: 'blur'}],
-  parent_menu: [{required: true, message: '请选择父级菜单', trigger: 'blur'}],
+  parent_menu_id: [{required: true, message: '请选择父级菜单', trigger: 'blur'}],
 })
+const menuRef = ref()
 // 新增或修改菜单
 const addMenuData = async () => {
-  if (title.value === '新增菜单') {
-    await addMenu(menuForm.value)
-  } else {
-    await editMenu(menuForm.value)
-  }
-  ElMessage({
-    type: 'success',
-    message: '操作成功！',
-    customClass: 'pure-message',
+  if (!menuRef.value) return
+  await menuRef.value.validate(async (valid) => {
+    if (valid) {
+      if (title.value === '新增菜单') {
+        await addMenu(menuForm.value)
+      } else {
+        await editMenu(menuForm.value)
+      }
+      ElMessage({
+        type: 'success',
+        message: '操作成功！',
+        customClass: 'pure-message',
+      })
+      handlerClose()
+      menuStore.getMenuData()
+    }
   })
-  handlerClose()
-  menuStore.getMenuData()
 }
-const menuRef = ref()
 // 删除菜单
 const deleteMenuData = async (data) => {
   await deleteMenu(data)
@@ -74,13 +79,11 @@ const deleteMenuData = async (data) => {
   })
   menuStore.getMenuData()
 }
-
 // 关闭对话框回调
 const handlerClose = () => {
   menuFormVisible.value = false
   menuRef.value.resetFields()
 }
-
 onMounted(() => {
   menuStore.getMenuData()
 })
@@ -218,7 +221,7 @@ onMounted(() => {
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="父级菜单" prop="parent_menu">
+        <el-form-item label="父级菜单" prop="parent_menu_id">
           <el-tree-select
               v-model="menuForm.parent_menu_id"
               :data="menuStore.dataSource"
