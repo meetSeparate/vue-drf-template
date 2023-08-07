@@ -1,5 +1,5 @@
 <script setup>
-import {ref, onMounted} from "vue";
+import {ref, onMounted, computed} from "vue";
 import {Search, Refresh, Edit, Delete, InfoFilled, Message} from "@element-plus/icons-vue";
 import {useGetUserInfo, useAddUserInfo} from "@/views/User/composable/hooks.js";
 import {useGetCharacter} from "@/views/Permission/composable/hooks.js";
@@ -83,6 +83,16 @@ const noticeForm = ref({
   title: '',
   description: ''
 })
+// 计算属性传递参数
+const noticeComputedData = computed(() => {
+  return {
+    type: noticeForm.value.type,
+    avatar: noticeForm.value.avatar,
+    title: noticeForm.value.title,
+    description: noticeForm.value.description,
+    multipleSelection: multipleSelection.value
+  }
+})
 // 发送消息规则校验
 const noticeRule = ref({
   type: [{required: true, message: '请选择消息类型', trigger: 'blur'}],
@@ -99,11 +109,11 @@ const sendMessage = async () => {
   if (!noticeRef.value) return
   await noticeRef.value.validate(async (valid) => {
     if (valid) {
-      await sendNoticeApi(noticeForm.value)
+      await sendNoticeApi(noticeComputedData.value)
       handleClose()
       ElMessage({
         type: 'success',
-        message: '发送成功',
+        message: '发送成功,请通知用户查看',
         customClass: 'pure-message'
       })
     }
