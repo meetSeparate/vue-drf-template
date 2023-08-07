@@ -9,6 +9,7 @@ import DarkSwitch from '@/components/DarkSwitch/index.vue'
 import NoticeList from "@/components/Notice/NoticeList.vue";
 import SearchFooter from "@/components/Search/SearchFooter.vue";
 import {changePasswordApi} from "@/api/password.js";
+import {getNoticeApi} from "@/api/notice.js";
 import {Bell, Search, Setting, SwitchButton} from "@element-plus/icons-vue";
 import {useTabStore} from "@/store/moudles/tab.js";
 import { onKeyStroke } from "@vueuse/core";
@@ -172,6 +173,11 @@ const noticesData = ref([
     ]
   }
 ])
+// 获取当前用户消息
+const getUserNotice = async () => {
+  const res = await getNoticeApi()
+  console.log(res.data)
+}
 const activeKey = ref(noticesData.value[0].key)
 // 全文搜索
 const searchKeyword = ref('')
@@ -277,7 +283,10 @@ const handleDown = () => {
 onKeyStroke("Enter", handleJump)
 onKeyStroke("ArrowUp", handleUp)
 onKeyStroke("ArrowDown", handleDown)
-onMounted(() => colorStore.setColor())
+onMounted(() => {
+  colorStore.setColor()
+  getUserNotice()
+})
 </script>
 
 <template>
