@@ -12,3 +12,10 @@ export const getNoticeApi = () => request({
     url: '/api/notice/',
     method: 'get'
 })
+
+// 获取所有消息
+export const getAllNoticeApi = (data) => request({
+    url: '/api/all_notice',
+    method: 'get',
+    data
+})
