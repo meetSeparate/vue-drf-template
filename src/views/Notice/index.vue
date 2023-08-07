@@ -1,6 +1,7 @@
 <script setup>
 import {ref, onMounted} from 'vue'
 import {getAllNoticeApi, deleteNoticeApi} from "@/api/notice.js";
+import {multiDeleteNoticeApi} from "@/api/multi.js";
 import moment from "moment";
 import {Delete, InfoFilled, Refresh, Search} from "@element-plus/icons-vue";
 
@@ -33,6 +34,11 @@ const getNoticeData = async () => {
   })
   noticeConfig.value.total = res.total
 }
+// 重置搜索
+const resetSearch = () => {
+  noticeConfig.value.title = ''
+  getNoticeData()
+}
 // 删除消息
 const deleteNotice = async (id) => {
   await deleteNoticeApi(id)
@@ -42,6 +48,32 @@ const deleteNotice = async (id) => {
     customClass: 'pure-message'
   })
   getNoticeData()
+}
+// 表格选中id列表
+const multipleSelection = ref([])
+// 改变选中id
+const handleSelectionChange = (val) => {
+  multipleSelection.value = val.map(item => item.id)
+}
+// 批量删除
+const multiDelete = () => {
+  ElMessageBox.confirm(
+      '确定要删除这些消息吗?',
+      'Warning',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  ).then(async () => {
+    await multiDeleteNoticeApi(multipleSelection.value)
+    ElMessage({
+      type: 'success',
+      message: '批量删除成功',
+      customClass: 'pure-message'
+    })
+    getNoticeData()
+  })
 }
 onMounted(() => getNoticeData())
 </script>
@@ -54,14 +86,14 @@ onMounted(() => getNoticeData())
         <el-input placeholder="请输入消息标题" size="small" v-model="noticeConfig.title"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" size="small" :icon="Search">搜索</el-button>
-        <el-button size="small" :icon="Refresh">重置</el-button>
+        <el-button type="primary" size="small" :icon="Search" @click="getNoticeData">搜索</el-button>
+        <el-button size="small" :icon="Refresh" @click="resetSearch">重置</el-button>
       </el-form-item>
     </el-form>
   </el-card>
   <el-card style="margin-top: 20px">
     <div class="button">
-      <el-button type="danger" size="small">
+      <el-button type="danger" size="small" @click="multiDelete">
         <el-icon class="el-icon--right">
           <Delete/>
         </el-icon>
@@ -69,7 +101,7 @@ onMounted(() => getNoticeData())
       </el-button>
     </div>
     <el-scrollbar max-height="550px">
-      <el-table :data="noticeData" style="width: 100%">
+      <el-table :data="noticeData" style="width: 100%" @selection-change="handleSelectionChange">
         <el-table-column fixed type="selection" width="55" />
         <el-table-column label="消息标识" width="120" align="center">
           <template #default="scope">

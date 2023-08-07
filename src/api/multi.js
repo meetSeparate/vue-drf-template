@@ -17,3 +17,12 @@ export const multiDeleteRoleApi = (data) => request({
         multiData: data
     }
 })
+
+// 批量删除消息
+export const multiDeleteNoticeApi = (data) => request({
+    url: '/api/multi_notice/',
+    method: 'delete',
+    data: {
+        multiData: data
+    }
+})
