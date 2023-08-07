@@ -1,9 +1,10 @@
 <script setup>
 import {ref, onMounted} from "vue";
-import {Search, Refresh, Edit, Delete, InfoFilled} from "@element-plus/icons-vue";
+import {Search, Refresh, Edit, Delete, InfoFilled, Message} from "@element-plus/icons-vue";
 import {useGetUserInfo, useAddUserInfo} from "@/views/User/composable/hooks.js";
 import {useGetCharacter} from "@/views/Permission/composable/hooks.js";
 import {multiDeleteUserApi} from "@/api/multi.js";
+import {sendNoticeApi} from "@/api/notice.js";
 import {ElMessage} from "element-plus";
 
 // 获取用户信息
@@ -73,6 +74,41 @@ const multiDelete = () => {
     getUserAccount(accountConfig.value)
   })
 }
+// 发送消息
+const noticeVisible = ref(false)
+const noticeRef = ref()
+const noticeForm = ref({
+  type: '',
+  avatar: '',
+  title: '',
+  description: ''
+})
+// 发送消息规则校验
+const noticeRule = ref({
+  type: [{required: true, message: '请选择消息类型', trigger: 'blur'}],
+  title: [{required: true, message: '请选择消息类型', trigger: 'blur'}]
+})
+// 关闭前回调
+const handleClose = () => {
+  noticeVisible.value = false
+  setTimeout(() => {
+    noticeRef.value.resetFields()
+  }, 200)
+}
+const sendMessage = async () => {
+  if (!noticeRef.value) return
+  await noticeRef.value.validate(async (valid) => {
+    if (valid) {
+      await sendNoticeApi(noticeForm.value)
+      handleClose()
+      ElMessage({
+        type: 'success',
+        message: '发送成功',
+        customClass: 'pure-message'
+      })
+    }
+  })
+}
 onMounted(() => {
   getUserAccount(accountConfig.value)
   getCharacterData({currentSize: 7, currentPage: 1})
@@ -105,6 +141,12 @@ onMounted(() => {
           批量删除
           <el-icon class="el-icon--right">
             <Delete/>
+          </el-icon>
+        </el-button>
+        <el-button type="success" size="small" @click="noticeVisible=true">
+          发送消息
+          <el-icon class="el-icon--right">
+            <Message />
           </el-icon>
         </el-button>
       </div>
@@ -228,6 +270,73 @@ onMounted(() => {
       </span>
       </template>
     </el-dialog>
+
+    <el-dialog
+      v-model="noticeVisible"
+      title="发送消息"
+      width="40%"
+      :before-close="handleClose"
+    >
+      <el-form :model="noticeForm" ref="noticeRef" :rules="noticeRule" label-position="top">
+        <el-form-item label="消息类型" prop="type">
+          <el-select v-model="noticeForm.type" placeholder="消息类型">
+            <el-option
+              v-for="item of [
+                  {label: '通知', value: 1},
+                  {label: '消息', value: 2},
+                  {label: '待办', value: 3}
+              ]"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="消息标识" v-if="noticeForm.type===1 || noticeForm.type===2" prop="avatar">
+          <el-select v-model="noticeForm.avatar" placeholder="消息标识">
+            <el-option
+              v-for="item of [
+                  {
+                    label: 'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png',
+                    value: 'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png'
+                  },
+                  {
+                    label: 'https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png',
+                    value: 'https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png'
+                  },
+                  {
+                    label: 'https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png',
+                    value: 'https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png'
+                  },
+                  {
+                    label: 'https://gw.alipayobjects.com/zos/rmsportal/GvqBnKhFgObvnSGkDsje.png',
+                    value: 'https://gw.alipayobjects.com/zos/rmsportal/GvqBnKhFgObvnSGkDsje.png'
+                  }
+              ]"
+              :label="item.label"
+              :value="item.value"
+            >
+              <img style="width: 30px;height: 30px;border-radius: 50%" :src="item.label" alt="">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="消息标题" prop="title">
+          <el-input v-model="noticeForm.title" placeholder="消息标题" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="详细描述" prop="description">
+          <el-input v-model="noticeForm.description" type="textarea" row="4" placeholder="详细描述" autocomplete="off" />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="handleClose">取消</el-button>
+        <el-button type="primary" @click="sendMessage">
+          确定
+        </el-button>
+      </span>
+      </template>
+    </el-dialog>
+
   </div>
 
 </template>
