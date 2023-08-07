@@ -19,3 +19,10 @@ export const getAllNoticeApi = (data) => request({
     method: 'get',
     data
 })
+
+// 删除对应消息
+export const deleteNoticeApi = (id) => request({
+    url: '/api/all_notice',
+    method: 'delete',
+    data: {id}
+})

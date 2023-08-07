@@ -109,6 +109,14 @@ const sendMessage = async () => {
   if (!noticeRef.value) return
   await noticeRef.value.validate(async (valid) => {
     if (valid) {
+      if (multipleSelection.value.length === 0) {
+        ElMessage({
+          type: 'error',
+          message: '请至少选择一位用户',
+          customClass: 'pure-message'
+        })
+        return
+      }
       await sendNoticeApi(noticeComputedData.value)
       handleClose()
       ElMessage({

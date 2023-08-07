@@ -1,6 +1,6 @@
 <script setup>
 import {ref, onMounted} from 'vue'
-import {getAllNoticeApi} from "@/api/notice.js";
+import {getAllNoticeApi, deleteNoticeApi} from "@/api/notice.js";
 import moment from "moment";
 import {Delete, InfoFilled, Refresh, Search} from "@element-plus/icons-vue";
 
@@ -33,7 +33,16 @@ const getNoticeData = async () => {
   })
   noticeConfig.value.total = res.total
 }
-
+// 删除消息
+const deleteNotice = async (id) => {
+  await deleteNoticeApi(id)
+  ElMessage({
+    type: 'success',
+    message: '删除成功',
+    customClass: 'pure-message'
+  })
+  getNoticeData()
+}
 onMounted(() => getNoticeData())
 </script>
 
@@ -72,13 +81,14 @@ onMounted(() => getNoticeData())
         <el-table-column prop="type" label="消息类型" width="120" align="center"/>
         <el-table-column prop="datetime" label="发送时间" width="200" align="center"/>
         <el-table-column fixed="right" label="操作" width="120" align="center">
-          <template #default>
+          <template #default="scope">
             <el-popconfirm
                 confirm-button-text="确定"
                 cancel-button-text="取消"
                 :icon="InfoFilled"
                 icon-color="#626AEF"
                 title="你确定删除吗?"
+                @confirm="deleteNotice(scope.row.id)"
             >
               <template #reference>
                 <el-button type="danger" :icon="Delete" size="small" />
