@@ -72,6 +72,7 @@ const multiDelete = () => {
       message: '批量删除成功',
       customClass: 'pure-message'
     })
+
     getNoticeData()
   })
 }
