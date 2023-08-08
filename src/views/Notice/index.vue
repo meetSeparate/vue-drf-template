@@ -3,7 +3,7 @@ import {ref, onMounted} from 'vue'
 import {getAllNoticeApi, deleteNoticeApi} from "@/api/notice.js";
 import {multiDeleteNoticeApi} from "@/api/multi.js";
 import moment from "moment";
-import {Delete, InfoFilled, Refresh, Search} from "@element-plus/icons-vue";
+import {Delete, InfoFilled, Refresh, Search, View} from "@element-plus/icons-vue";
 
 // 消息数据
 const noticeData = ref([])
@@ -109,12 +109,20 @@ onMounted(() => getNoticeData())
             <img class="notice-avatar" :src="scope.row.avatar" alt="消息标识">
           </template>
         </el-table-column>
-        <el-table-column prop="title" label="消息标题" width="150" align="center"/>
+        <el-table-column prop="title" label="消息标题" width="180" align="center"/>
         <el-table-column prop="description" label="详细描述" align="center"/>
         <el-table-column prop="type" label="消息类型" width="120" align="center"/>
         <el-table-column prop="datetime" label="发送时间" width="200" align="center"/>
         <el-table-column fixed="right" label="操作" width="120" align="center">
           <template #default="scope">
+            <el-tooltip
+                class="box-item"
+                effect="dark"
+                content="查看收到消息的用户"
+                placement="top-end"
+            >
+              <el-button type="primary" :icon="View" size="small" />
+            </el-tooltip>
             <el-popconfirm
                 confirm-button-text="确定"
                 cancel-button-text="取消"
