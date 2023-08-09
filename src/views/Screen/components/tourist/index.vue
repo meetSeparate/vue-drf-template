@@ -1,5 +1,5 @@
 <script setup>
-// import 'echarts-liquidfill'
+import 'echarts-liquidfill'
 import * as echarts from 'echarts'
 import { ref, onMounted } from 'vue'
 let people = ref('215908人')
