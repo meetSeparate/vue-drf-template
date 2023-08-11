@@ -46,6 +46,7 @@ const {
                   :key="index"
                   :type="activity.type"
                   :color="activity.color"
+                  :icon="activity.icon"
                   :size="activity.size"
                   :timestamp="activity.timestamp"
               >

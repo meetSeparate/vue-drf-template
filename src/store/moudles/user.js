@@ -1,7 +1,6 @@
 import {defineStore} from "pinia";
 import {ref} from 'vue'
 import {loginAPI, signAPI} from "@/api/user.js";
-import {getRoute} from "@/api/route.js";
 
 export const useUserStore = defineStore('user', () => {
 

@@ -1,6 +1,7 @@
-import {ref, onMounted} from "vue";
+import {ref, onMounted, markRaw} from "vue";
 import {getPersonal, editPersonal} from "@/api/personal.js";
 import {getAnnouncement, addAnnouncement, deleteAnnouncement} from "@/api/announcement.js";
+import {useRenderFlicker} from "@/components/ReFlicker/index.js";
 import {useAddUserInfo, useGetUserInfo} from "@/views/User/composable/hooks.js";
 import {useUserStore} from "@/store/moudles/user.js";
 
@@ -63,6 +64,7 @@ export const useAnnouncement = () => {
         const res = await getAnnouncement()
         announcementData.value = res.data.map(item => {
             item.timestamp = dateFormat(new Date(item.timestamp))
+            item.icon = markRaw(useRenderFlicker({background: item.color}))
             return item
         }).reverse()
     }
