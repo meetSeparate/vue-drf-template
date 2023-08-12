@@ -212,7 +212,7 @@ onMounted(() => {
 
       <el-dropdown trigger="click" placement="bottom-end">
         <span class="dropdown-badge navbar-bg-hover select-none">
-          <el-icon class="bell">
+          <el-icon class="bell" id="header-notice">
             <el-badge :value="noticeCount" :max="99" class="item">
               <bell style="width: 18px;height: 18px" />
             </el-badge>
@@ -240,7 +240,7 @@ onMounted(() => {
 
       <el-dropdown trigger="click">
         <span class="el-dropdown-link">
-          <el-icon class="search">
+          <el-icon class="search" id="header-translation">
             <svg-icon name="globalization" width="18px" height="18px"/>
           </el-icon>
         </span>
@@ -288,7 +288,7 @@ onMounted(() => {
         </el-dropdown>
       </div>
 
-      <el-icon class="search" @click="settingsVisible=true">
+      <el-icon class="search" @click="settingsVisible=true" id="set-icon">
         <setting />
       </el-icon>
     </div>

@@ -122,7 +122,6 @@ const {
 </template>
 
 <style scoped lang="scss">
-
 .el-timeline {
   padding: 10px;
 }

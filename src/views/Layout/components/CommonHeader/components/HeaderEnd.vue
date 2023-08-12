@@ -23,7 +23,7 @@ const changeFullScreen = () => {
 
 <template>
   <div class="header-end">
-    <div class="navigation-card">
+    <div class="navigation-card" id="tags-view">
       <header-tab />
     </div>
 

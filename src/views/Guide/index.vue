@@ -23,13 +23,13 @@ const guide = () => {
             position: "left"
           },
           {
-            element: document.querySelector(".set-icon"),
+            element: document.querySelector("#set-icon"),
             title: "项目配置",
             intro: "您可以在这里查看项目配置",
             position: "left"
           },
           {
-            element: document.querySelector(".tags-view"),
+            element: document.querySelector("#tags-view"),
             title: "多标签页",
             intro: "这里是您访问过的页面的历史",
             position: "bottom"
@@ -41,16 +41,24 @@ const guide = () => {
 </script>
 
 <template>
-  <el-card>
-    <template #header>
-      <div class="card-header">
+  <div class="padding">
+    <el-card>
+      <template #header>
+        <div class="card-header">
         <span class="font-medium">
           引导页对于一些第一次进入项目的人很有用，你可以简单介绍下项目的功能
         </span>
-      </div>
-    </template>
-    <el-button type="primary" class="mt-[10px]" @click="guide">
-      打开引导页
-    </el-button>
-  </el-card>
+        </div>
+      </template>
+      <el-button type="primary" class="mt-[10px]" @click="guide">
+        打开引导页
+      </el-button>
+    </el-card>
+  </div>
 </template>
+
+<style lang="scss" scoped>
+.padding{
+  padding: 20px;
+}
+</style>
