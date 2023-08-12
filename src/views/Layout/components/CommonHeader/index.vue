@@ -8,8 +8,8 @@ const collapseStore = useCollapseStore()
 
 <template>
   <el-header :style="`width: calc(100% - ${collapseStore.isCollapse ? 60 : 210}px)`">
-    <header-top/>
-    <header-end/>
+    <header-top />
+    <header-end />
   </el-header>
 </template>
 
