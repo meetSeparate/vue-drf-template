@@ -5,10 +5,9 @@ const routes = [
         component: () => import('../views/Login/index.vue'),
         meta: {
             title: '登录',
-            isMenu: false,
+            isMenu: false
         }
     },
-
     {
         path: '/layout',
         name: 'layout',
@@ -26,12 +25,11 @@ const routes = [
                 meta: {
                     title: '首页',
                     isMenu: true,
-                    icon: 'HomeFilled',
+                    icon: 'HomeFilled'
                 }
             }
         ]
     },
-
     {
         path: '/404',
         name: '404',
@@ -41,7 +39,6 @@ const routes = [
             isMenu: false
         }
     },
-
     {
         path: '/:pathMatch(.*)*',
         redirect: '/404',
@@ -51,8 +48,6 @@ const routes = [
             isMenu: false
         }
     }
-
-
 ]
 
 export default routes
