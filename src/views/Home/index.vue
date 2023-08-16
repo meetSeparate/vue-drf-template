@@ -38,7 +38,8 @@ setTimeout(() => {
         :sm="24"
         :md="12"
         :lg="12"
-        :xl="12">
+        :xl="12"
+      >
         <personal :loading="loading" />
       </el-col>
       <el-col
@@ -46,7 +47,8 @@ setTimeout(() => {
         :sm="24"
         :md="12"
         :lg="12"
-        :xl="12">
+        :xl="12"
+      >
         <announcement :loading="loading" />
       </el-col>
     </el-row>
@@ -56,7 +58,8 @@ setTimeout(() => {
         :sm="24"
         :md="12"
         :lg="8"
-        :xl="8">
+        :xl="8"
+      >
         <el-card>
           <template #header>
             <TypeIt
@@ -76,7 +79,8 @@ setTimeout(() => {
         :sm="24"
         :md="12"
         :lg="8"
-        :xl="8">
+        :xl="8"
+      >
         <el-card>
           <template #header>
             <TypeIt
@@ -96,7 +100,8 @@ setTimeout(() => {
         :sm="24"
         :md="12"
         :lg="8"
-        :xl="8">
+        :xl="8"
+      >
         <el-card>
           <template #header>
             <TypeIt
