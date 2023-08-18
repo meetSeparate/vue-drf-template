@@ -116,4 +116,9 @@ const collapseStore = useCollapseStore()
   border: none;
 }
 
+@media screen and (max-width: 700px) {
+  .el-aside {
+    width: 50px;
+  }
+}
 </style>

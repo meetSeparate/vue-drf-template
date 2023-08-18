@@ -297,7 +297,7 @@ onMounted(() => {
   <el-drawer
       v-model="settingsVisible"
       :show-close="true"
-      size="20%"
+      size="350px"
   >
     <template #header="{ close, titleId, titleClass }">
       <h4 :id="titleId" :class="titleClass">项目配置</h4>

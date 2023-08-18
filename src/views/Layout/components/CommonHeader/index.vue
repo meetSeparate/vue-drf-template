@@ -7,7 +7,7 @@ const collapseStore = useCollapseStore()
 </script>
 
 <template>
-  <el-header :style="`width: calc(100% - ${collapseStore.isCollapse ? 60 : 210}px)`">
+  <el-header class="common-header" :style="`width: calc(100% - ${collapseStore.isCollapse ? 60 : 210}px)`">
     <header-top />
     <header-end />
   </el-header>
@@ -28,6 +28,12 @@ const collapseStore = useCollapseStore()
 
   .el-header {
     background-color: #1d1e1f;
+  }
+}
+
+@media screen and (max-width: 700px){
+  .common-header {
+    width: calc(100% - 50px) !important;
   }
 }
 </style>
