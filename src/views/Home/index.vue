@@ -15,7 +15,7 @@ setTimeout(() => {
 </script>
 
 <template>
-  <el-scrollbar max-height="800px">
+  <el-scrollbar max-height="1000px">
     <el-card class="label" v-if="$route.name === 'home'">
       <div class="left-mark">
         <el-avatar
