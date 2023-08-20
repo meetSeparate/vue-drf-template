@@ -6,7 +6,6 @@ import {useGetCharacter} from "@/views/Permission/composable/hooks.js";
 import {multiDeleteUserApi} from "@/api/multi.js";
 import {sendNoticeApi} from "@/api/notice.js";
 import {ElMessage} from "element-plus";
-import {ElLoading} from "element-plus";
 
 // 获取用户信息
 const {userData, getUserAccount} = useGetUserInfo()
