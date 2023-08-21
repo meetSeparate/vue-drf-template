@@ -116,7 +116,7 @@ const handleSignSuccess = () => {
 
     <div class="login-content">
       <div class="login-form">
-        <svg-icon width="350px" height="80px" name="avatar"/>
+        <svg-icon class="avatar" name="avatar"/>
         <div class="login-title">
           <h2>operatingadmin</h2>
         </div>
@@ -242,6 +242,11 @@ const handleSignSuccess = () => {
     .login-form {
       width: 360px;
 
+      .avatar {
+        width: 350px;
+        height: 80px;
+      }
+
       .login-title {
         transform: translateZ(0px);
         opacity: 1;
@@ -276,6 +281,28 @@ const handleSignSuccess = () => {
     font-size: 14px;
     color: var(--el-color-primary);
     cursor: pointer;
+  }
+}
+
+@media screen and (max-width: 700px){
+  .login-container {
+    background: none;
+    grid-template-columns: 1fr;
+    .img {
+      display: none;
+    }
+    .login-content {
+      justify-content: center;
+
+      .login-form {
+        width: 290px;
+
+        .avatar {
+          width: 280px;
+          height: 80px;
+        }
+      }
+    }
   }
 }
 </style>
