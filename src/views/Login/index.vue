@@ -17,8 +17,8 @@ const modelChange = ref(true)
 const userStore = useUserStore()
 // 登录表单收集
 const loginForm = ref({
-  username: 'admin',
-  password: '123456',
+  username: '',
+  password: '',
   validation: false
 })
 // 注册表单
