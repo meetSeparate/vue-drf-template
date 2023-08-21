@@ -2,7 +2,7 @@
 import {Delete, InfoFilled} from "@element-plus/icons-vue";
 import {useAnnouncement} from "@/views/Home/composable/hooks.js";
 import {useUserStore} from "@/store/moudles/user.js";
-import TypeIt from "@/components/ReTypeit/inex.js";
+import TypeIt from "@/components/ReTypeit/index.js";
 
 
 defineProps({

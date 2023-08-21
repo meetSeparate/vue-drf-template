@@ -5,7 +5,7 @@ import Announcement from "./components/Announcement.vue";
 import CompositeIndex from "./components/CompositeIndex.vue";
 import BrowserRatioChart from "./components/BrowserRatioChart.vue";
 import GithubClockInChart from "./components/GithubClockInChart.vue";
-import TypeIt from "@/components/ReTypeit/inex.js";
+import TypeIt from "@/components/ReTypeit/index.js";
 
 // 骨架加载屏
 const loading = ref(true)

@@ -1,7 +1,7 @@
 <script setup>
 import vueDanmaku from 'vue3-danmaku'
 import {useEditPersonal, useGetPersonal} from "@/views/Home/composable/hooks.js";
-import TypeIt from '@/components/ReTypeit/inex.js'
+import TypeIt from '@/components/ReTypeit/index.js'
 
 const danmus = [
   {

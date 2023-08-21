@@ -9,6 +9,7 @@ import 'element-plus/theme-chalk/dark/css-vars.css'
 import components from "./components/index.js";
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import {useRouterTemplate} from "@/utils/router-template.js";
+import { MotionPlugin } from "@vueuse/motion";
 const {addAsyncRoute} = useRouterTemplate()
 
 const app = createApp(App)
@@ -19,6 +20,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 const asyncRoute = JSON.parse(localStorage.getItem('primitiveRoute')) || []
 addAsyncRoute(asyncRoute)
 app.use(router)
+app.use(MotionPlugin)
 app.use(pinia)
 // 全局注册组件插件
 app.use(components)

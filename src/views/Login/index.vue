@@ -6,6 +6,8 @@ import {useRouter, useRoute} from "vue-router"
 import Validation from "@/components/Validation/index.vue";
 import DarkSwitch from '@/components/DarkSwitch/index.vue'
 import {usePermissionStore} from "@/store/moudles/permission.js";
+import TypeIt from '@/components/ReTypeit/index.js'
+import Motion from '@/components/Motion/index.js'
 
 const router = useRouter()
 const route = useRoute()
@@ -118,7 +120,15 @@ const handleSignSuccess = () => {
       <div class="login-form">
         <svg-icon class="avatar" name="avatar"/>
         <div class="login-title">
-          <h2>operatingadmin</h2>
+          <Motion>
+            <h2>
+              <TypeIt
+                :values="['EnyAdmin']"
+                :cursor="false"
+                :speed="150"
+            />
+            </h2>
+          </Motion>
         </div>
 
         <el-form
@@ -127,36 +137,46 @@ const handleSignSuccess = () => {
             :rules="loginRules"
             v-show="modelChange"
         >
-          <el-form-item prop="username">
-            <el-input
-                clearable
-                v-model="loginForm.username"
-                size="large"
-                placeholder="账号"
-                :prefix-icon="User"
-            />
-          </el-form-item>
-          <el-form-item
-              prop="password">
-            <el-input
-                clearable
-                type="password"
-                size="large"
-                v-model="loginForm.password"
-                placeholder="密码"
-                :prefix-icon="Lock"
-                show-password
-            />
-          </el-form-item>
-          <el-form-item prop="validation">
-            <validation @success="handleLoginSuccess"/>
-          </el-form-item>
-          <el-form-item style="margin-bottom: 5px">
-            <el-button style="width: 100%" type="primary" @click="toLogin">登录</el-button>
-          </el-form-item>
-          <div class="tip">
-            <span @click="modelChange=false">注册帐号</span>
-          </div>
+          <Motion :delay="100">
+            <el-form-item prop="username">
+              <el-input
+                  clearable
+                  v-model="loginForm.username"
+                  size="large"
+                  placeholder="账号"
+                  :prefix-icon="User"
+              />
+            </el-form-item>
+          </Motion>
+          <Motion :delay="150">
+            <el-form-item
+                prop="password">
+              <el-input
+                  clearable
+                  type="password"
+                  size="large"
+                  v-model="loginForm.password"
+                  placeholder="密码"
+                  :prefix-icon="Lock"
+                  show-password
+              />
+            </el-form-item>
+          </Motion>
+          <Motion :delay="200">
+            <el-form-item prop="validation">
+              <validation @success="handleLoginSuccess"/>
+            </el-form-item>
+          </Motion>
+          <Motion :delay="250">
+            <el-form-item style="margin-bottom: 5px">
+              <el-button style="width: 100%" type="primary" @click="toLogin">登录</el-button>
+            </el-form-item>
+          </Motion>
+          <Motion :delay="300">
+            <div class="tip">
+              <span @click="modelChange=false">注册帐号</span>
+            </div>
+          </Motion>
         </el-form>
 
         <el-form
@@ -243,7 +263,7 @@ const handleSignSuccess = () => {
       width: 360px;
 
       .avatar {
-        width: 350px;
+        width: 360px;
         height: 80px;
       }
 
