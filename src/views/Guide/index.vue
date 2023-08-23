@@ -333,7 +333,7 @@ onMounted(() => {
 .wind {
   position: absolute;
   bottom: 25px;
-  right: 40%;
+  right: 180px;
 
   span {
     font-weight: 700;
