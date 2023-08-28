@@ -1,5 +1,5 @@
 <script setup>
-import {useRouter} from "vue-router";
+import {useRouter, useRoute} from "vue-router";
 import {ref, onMounted, computed} from "vue";
 import {ElMessage} from "element-plus";
 import {useUserStore} from "@/store/moudles/user.js";
@@ -17,6 +17,7 @@ import util from "@/utils/index.js";
 import moment from "moment";
 
 const router = useRouter()
+const route = useRoute()
 const userStore = useUserStore()
 const colorStore = useColorStore()
 const settingStore = useSettingStore()
@@ -182,6 +183,14 @@ const handleDown = () => {
   if (activeIndex.value === resultOptions.value.length-1) return
   activeIndex.value ++
 }
+// 匹配路由对象数组去重
+const routeResult = computed(() => {
+  let info = {}
+  return route.matched.reduce((cur, next) => {
+    info[next.meta.title] ? '' : info[next.meta.title] = cur.push(next)
+    return cur
+  }, [])
+})
 
 onKeyStroke("Enter", handleJump)
 onKeyStroke("ArrowUp", handleUp)
@@ -196,7 +205,7 @@ onMounted(() => {
   <div class="header-top">
     <el-breadcrumb separator="/">
       <el-breadcrumb-item
-          v-for="(item, index) of $route.matched"
+          v-for="(item, index) of routeResult"
           :key="index"
           :to="item.path"
           v-show="item.meta.title"
