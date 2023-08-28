@@ -9,7 +9,6 @@ import TypeIt from "@/components/ReTypeit/index.js";
 
 // 骨架加载屏
 const loading = ref(true)
-console.log(loading.value)
 setTimeout(() => {
   loading.value = !loading.value;
 }, 800)
@@ -22,7 +21,7 @@ setTimeout(() => {
         <el-avatar
             :size="50"
             class="mr-3"
-            src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+            src="src/assets/images/avatar.jpg"
         />
 
         <TypeIt
