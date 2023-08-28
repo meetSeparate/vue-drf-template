@@ -45,7 +45,8 @@ const value = ref('A6386')
 const options = ref([])
 // 城市对象
 const cityObj = computed(() => {
-  const length = options.value.length
+  console.log(options.value)
+  const length = options.value? options.value.length : 0
   return length===0 ? {} : options.value.find(item => item.id===value.value)
 })
 // 获取城市列表
@@ -56,7 +57,7 @@ const getCityList = async (location) => {
       lang: 'en',
       number: 5
     }})
-  options.value = res.data.location
+  options.value = res.data?.location
 }
 // 远程搜索
 const remoteMethod = async (location) => {
@@ -64,8 +65,6 @@ const remoteMethod = async (location) => {
     loading.value = true
     await getCityList(location)
     loading.value = false
-  } else {
-    options.value = []
   }
 }
 // 实时天气信息
@@ -79,7 +78,7 @@ const getWeather = async () => {
       lang: 'en'
     }
   })
-  nowWeather.value = res.data.now
+  nowWeather.value = res.data?res.data.now:{}
 }
 // 监听选中城市变化
 watch(value, () => {
@@ -118,9 +117,9 @@ onMounted(() => {
     >
       <el-option
           v-for="item in options"
-          :key="item.id"
-          :label="item.name"
-          :value="item.id"
+          :key="item?.id"
+          :label="item?.name"
+          :value="item?.id"
       />
     </el-select>
     <div class="card" style="margin-top: 10px">
@@ -138,7 +137,7 @@ onMounted(() => {
       </div>
 
       <div class="card-header">
-        <span>{{cityObj.name}}<br>{{cityObj.country}}</span>
+        <span>{{cityObj?.name}}<br>{{cityObj?.country}}</span>
         <span>{{moment(nowWeather.obsTime).format('MM-DD-YYYY')}}</span>
       </div>
 
@@ -320,7 +319,7 @@ onMounted(() => {
 
 .temp-scale {
   position: absolute;
-  right: 25px;
+  right: 5%;
   bottom: 25px;
 }
 
@@ -333,7 +332,7 @@ onMounted(() => {
 .wind {
   position: absolute;
   bottom: 25px;
-  right: 180px;
+  right: 40%;
 
   span {
     font-weight: 700;

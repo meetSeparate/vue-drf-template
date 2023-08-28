@@ -9,6 +9,7 @@ import TypeIt from "@/components/ReTypeit/index.js";
 
 // 骨架加载屏
 const loading = ref(true)
+console.log(loading.value)
 setTimeout(() => {
   loading.value = !loading.value;
 }, 800)

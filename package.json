@@ -12,6 +12,7 @@
     "@element-plus/icons-vue": "^2.1.0",
     "@iconify-icons/ri": "^1.2.10",
     "@vueuse/core": "^10.3.0",
+    "@vueuse/motion": "2.0.0-beta.12",
     "axios": "^1.4.0",
     "crypto-js": "^4.1.1",
     "echarts": "^5.4.3",
@@ -26,15 +27,15 @@
     "typeit": "^8.7.1",
     "vue": "^3.2.41",
     "vue-router": "^4.2.4",
-    "vue3-danmaku": "^1.4.0",
-    "@vueuse/motion": "2.0.0-beta.12"
+    "vue3-danmaku": "^1.4.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.2.0",
+    "intro.js": "^6.0.0",
     "unplugin-auto-import": "^0.16.6",
     "unplugin-vue-components": "^0.25.1",
     "vite": "^3.2.3",
-    "vite-plugin-svg-icons": "^2.0.1",
-    "intro.js": "^6.0.0"
+    "vite-plugin-enhance-log": "^0.5.2",
+    "vite-plugin-svg-icons": "^2.0.1"
   }
 }
