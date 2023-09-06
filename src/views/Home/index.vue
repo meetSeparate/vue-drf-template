@@ -6,6 +6,7 @@ import CompositeIndex from "./components/CompositeIndex.vue";
 import BrowserRatioChart from "./components/BrowserRatioChart.vue";
 import GithubClockInChart from "./components/GithubClockInChart.vue";
 import TypeIt from "@/components/ReTypeit/index.js";
+import Motion from '@/components/Motion/index.js'
 
 // 骨架加载屏
 const loading = ref(true)
@@ -33,26 +34,76 @@ setTimeout(() => {
       </div>
     </el-card>
     <el-row>
-      <el-col
-        :xs="24"
-        :sm="24"
-        :md="12"
-        :lg="12"
-        :xl="12"
-      >
-        <personal :loading="loading" />
-      </el-col>
-      <el-col
-        :xs="24"
-        :sm="24"
-        :md="12"
-        :lg="12"
-        :xl="12"
-      >
-        <announcement :loading="loading" />
-      </el-col>
+        <el-col
+            :xs="24"
+            :sm="24"
+            :md="12"
+            :lg="12"
+            :xl="12"
+        >
+          <Motion>
+            <personal :loading="loading" />
+          </Motion>
+        </el-col>
+        <el-col
+            :xs="24"
+            :sm="24"
+            :md="12"
+            :lg="12"
+            :xl="12"
+        >
+          <Motion>
+            <announcement :loading="loading" />
+          </Motion>
+        </el-col>
     </el-row>
     <el-row>
+        <el-col
+            :xs="24"
+            :sm="24"
+            :md="12"
+            :lg="8"
+            :xl="8"
+        >
+          <Motion :delay="100">
+            <el-card>
+            <template #header>
+              <TypeIt
+                  :className="'type-it3'"
+                  :values="['2023年上证指数']"
+                  :cursor="false"
+                  :speed="120"
+              />
+            </template>
+            <el-skeleton :rows="7" animated :loading="loading">
+              <composite-index />
+            </el-skeleton>
+          </el-card>
+          </Motion>
+        </el-col>
+        <el-col
+            :xs="24"
+            :sm="24"
+            :md="12"
+            :lg="8"
+            :xl="8"
+        >
+          <Motion :delay="100">
+            <el-card>
+            <template #header>
+              <TypeIt
+                  :className="'type-it4'"
+                  :values="['浏览器占比变化']"
+                  :cursor="false"
+                  :speed="120"
+              />
+            </template>
+            <el-skeleton :rows="7" animated :loading="loading">
+              <browser-ratio-chart />
+            </el-skeleton>
+          </el-card>
+          </Motion>
+        </el-col>
       <el-col
         :xs="24"
         :sm="24"
@@ -60,49 +111,8 @@ setTimeout(() => {
         :lg="8"
         :xl="8"
       >
-        <el-card>
-          <template #header>
-            <TypeIt
-                :className="'type-it3'"
-                :values="['2023年上证指数']"
-                :cursor="false"
-                :speed="120"
-            />
-          </template>
-          <el-skeleton :rows="7" animated :loading="loading">
-            <composite-index />
-          </el-skeleton>
-        </el-card>
-      </el-col>
-      <el-col
-        :xs="24"
-        :sm="24"
-        :md="12"
-        :lg="8"
-        :xl="8"
-      >
-        <el-card>
-          <template #header>
-            <TypeIt
-                :className="'type-it4'"
-                :values="['浏览器占比变化']"
-                :cursor="false"
-                :speed="120"
-            />
-          </template>
-          <el-skeleton :rows="7" animated :loading="loading">
-            <browser-ratio-chart />
-          </el-skeleton>
-        </el-card>
-      </el-col>
-      <el-col
-        :xs="24"
-        :sm="24"
-        :md="12"
-        :lg="8"
-        :xl="8"
-      >
-        <el-card>
+        <Motion :delay="100">
+          <el-card>
           <template #header>
             <TypeIt
                 :className="'type-it5'"
@@ -115,6 +125,7 @@ setTimeout(() => {
             <github-clock-in-chart />
           </el-skeleton>
         </el-card>
+        </Motion>
       </el-col>
     </el-row>
   </el-scrollbar>
