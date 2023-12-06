@@ -1,17 +1,17 @@
 <script setup>
 import {ref} from 'vue'
-import Personal from "./components/Personal.vue";
-import Announcement from "./components/Announcement.vue";
-import CompositeIndex from "./components/CompositeIndex.vue";
-import BrowserRatioChart from "./components/BrowserRatioChart.vue";
-import GithubClockInChart from "./components/GithubClockInChart.vue";
-import TypeIt from "@/components/ReTypeit/index.js";
+import Personal from "./components/Personal.vue"
+import Announcement from "./components/Announcement.vue"
+import CompositeIndex from "./components/CompositeIndex.vue"
+import BrowserRatioChart from "./components/BrowserRatioChart.vue"
+import GithubClockInChart from "./components/GithubClockInChart.vue"
+import TypeIt from "@/components/ReTypeit/index.js"
 import Motion from '@/components/Motion/index.js'
 
 // 骨架加载屏
 const loading = ref(true)
 setTimeout(() => {
-  loading.value = !loading.value;
+  loading.value = !loading.value
 }, 800)
 </script>
 
@@ -27,7 +27,7 @@ setTimeout(() => {
 
         <TypeIt
             :className="'type-it0'"
-            :values="['时光不老，我们不散😃！']"
+            :values="['图像修复系统简介']"
             :cursor="false"
             :speed="60"
         />
@@ -41,9 +41,7 @@ setTimeout(() => {
             :lg="12"
             :xl="12"
         >
-          <Motion>
-            <personal :loading="loading" />
-          </Motion>
+          <personal :loading="loading" />
         </el-col>
         <el-col
             :xs="24"
@@ -52,9 +50,7 @@ setTimeout(() => {
             :lg="12"
             :xl="12"
         >
-          <Motion>
-            <announcement :loading="loading" />
-          </Motion>
+          <announcement :loading="loading" />
         </el-col>
     </el-row>
     <el-row>

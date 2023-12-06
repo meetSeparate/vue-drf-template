@@ -31,6 +31,72 @@ const routes = [
         ]
     },
     {
+        path: '/mask',
+        name: 'mask',
+        component: () => import('../views/Layout/index.vue'),
+        redirect: '/mask/drawing',
+        meta: {
+            title: '生成Mask',
+            isMenu: true
+        },
+        children: [
+            {
+                path: '/mask/drawing',
+                name: 'drawing',
+                component: () => import('../views/Mask/index.vue'),
+                meta: {
+                    title: '生成Mask',
+                    isMenu: true,
+                    icon: 'CameraFilled'
+                }
+            }
+        ]
+    },
+    {
+        path: '/upload',
+        name: 'upload',
+        component: () => import('../views/Layout/index.vue'),
+        redirect: '/upload/index',
+        meta: {
+            title: '图像修复',
+            isMenu: true
+        },
+        children: [
+            {
+                path: '/upload/index',
+                name: 'index',
+                component: () => import('../views/Upload/index.vue'),
+                meta: {
+                    title: '图像修复',
+                    isMenu: true,
+                    icon: 'PictureFilled'
+                }
+            }
+        ]
+    },
+    {
+        path: '/recode',
+        name: 'recode',
+        component: () => import('../views/Layout/index.vue'),
+        redirect: '/recode/image',
+        meta: {
+            title: '图像修复记录',
+            isMenu: true
+        },
+        children: [
+            {
+                path: '/recode/image',
+                name: 'image',
+                component: () => import('../views/Record/index.vue'),
+                meta: {
+                    title: '图像修复记录',
+                    isMenu: true,
+                    icon: 'PictureFilled'
+                }
+            }
+        ]
+    },
+    {
         path: '/404',
         name: '404',
         component: () => import('../views/Error/404.vue'),

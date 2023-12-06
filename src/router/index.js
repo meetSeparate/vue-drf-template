@@ -39,7 +39,7 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach((to) => {
     nprogress.done()
-    document.title = `${to.meta.title} | EnyAdmin`
+    document.title = `${to.meta.title} | 图像修复系统`
 })
 
 export default router

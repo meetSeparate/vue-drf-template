@@ -43,25 +43,27 @@ const dialogRoleVisible = ref(false)
 const dialogNoteVisible = ref(false)
 const roleRef = ref()
 const treeRoleRef = ref()
-const title = ref('新增角色')
+const title = ref('新增职务')
 // 新增角色表单
 const roleForm = ref({
   id: '',
   title: '',
   note: '',
+  section: '',
   permissions: [],
 })
 // 打开新增角色对话框
 const openAddCharacter = () => {
   dialogRoleVisible.value = true
-  title.value = '新增角色'
+  title.value = '新增职务'
 }
 // 打开编辑角色对话框
 const openEditCharacter = (row) => {
-  title.value = '编辑角色'
+  title.value = '编辑职务'
   dialogRoleVisible.value = true
   nextTick(() => {
     roleForm.value.id = row.id
+    roleForm.value.section = row.section
     roleForm.value.title = row.title
     roleForm.value.note = row.note
     treeRoleRef.value.setCheckedKeys(row.menu, false)
@@ -74,7 +76,7 @@ const handlerClose = () => {
   // 清空树级选择框
   treeRoleRef.value.setCheckedKeys([], false)
 }
-// 新增或修改角色
+// 新增或修改部门
 const confirmRole = async () => {
   roleForm.value.permissions = treeRoleRef.value.getCheckedKeys(false)
   if (title.value === '新增角色') {
@@ -133,6 +135,7 @@ const multiDelete = () => {
     getCharacterData(config.value)
   })
 }
+
 onMounted(() => {
   getCharacterData(config.value)
   menuStore.getMenuData()

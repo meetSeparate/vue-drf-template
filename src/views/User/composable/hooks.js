@@ -54,7 +54,9 @@ export const useAddUserInfo = () => {
         gender: '',
         age: '',
         phone: '',
-        role: ''
+        section: '',
+        role: '',
+        avatar_id: ''
     })
 
     // 检查年龄信息

@@ -19,7 +19,7 @@ export const signAPI = (data) => request({
 // 获取用户信息
 export const getAccount = (data) => request({
     url: '/api/user',
-    data: data
+    params: data
 })
 // 新增用户
 export const addAccount = (data) => request({
@@ -41,3 +41,32 @@ export const deleteUser = (id) => request({
         id
     }
 })
+
+
+// 开始检测
+export const startDetectApi = (data) => {
+    return request({
+        url: '/api/detect/',
+        method: 'post',
+        data
+    })
+}
+
+// 获取检测记录
+export const getRecordApi = () => {
+    return request({
+        url: '/api/record',
+        method: 'get'
+    })
+}
+
+// 获取检测记录
+export const delRecordApi = (id) => {
+    return request({
+        url: '/api/record',
+        method: 'delete',
+        data: {
+            id
+        }
+    })
+}

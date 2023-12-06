@@ -54,10 +54,6 @@ service.interceptors.response.use((response) => {
 // 封装的核心函数
 function request(options) {
     options.method = options.method || 'get'
-    if (options.method.toLowerCase() === 'get') {
-        options.params = options.data
-
-    }
     return service(options)
 }
 

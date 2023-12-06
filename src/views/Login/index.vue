@@ -123,7 +123,7 @@ const handleSignSuccess = () => {
           <Motion>
             <h2>
               <TypeIt
-                :values="['EnyAdmin']"
+                :values="['图像修复系统']"
                 :cursor="false"
                 :speed="150"
             />

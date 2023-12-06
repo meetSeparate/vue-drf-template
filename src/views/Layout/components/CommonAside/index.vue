@@ -14,7 +14,7 @@ const collapseStore = useCollapseStore()
       <router-link to="/layout" class="logo-link">
         <img src="@/assets/icons/avatar.svg" alt="">
         <span class="title">
-            EnyAdmin
+            图像修复系统
           </span>
       </router-link>
     </div>

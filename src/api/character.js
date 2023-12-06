@@ -5,7 +5,7 @@ import request from '@/utils/request.js'
 export const getCharacter = (config) => request({
     url: '/api/character',
     method: 'get',
-    data: config
+    params: config
 })
 
 // 新增角色

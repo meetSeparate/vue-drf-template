@@ -41,11 +41,10 @@ const guide = () => {
       .start();
 }
 const loading = ref(false)
-const value = ref('A6386')
+const value = ref('101010100')
 const options = ref([])
 // 城市对象
 const cityObj = computed(() => {
-  console.log(options.value)
   const length = options.value? options.value.length : 0
   return length===0 ? {} : options.value.find(item => item.id===value.value)
 })
@@ -75,7 +74,7 @@ const getWeather = async () => {
     params: {
       location: value.value,
       key: '49830178f7374988a42d5c4612b1bd80',
-      lang: 'en'
+      lang: 'zh-cn'
     }
   })
   nowWeather.value = res.data?res.data.now:{}
@@ -86,7 +85,7 @@ watch(value, () => {
 })
 onMounted(() => {
   getWeather()
-  getCityList('london')
+  getCityList('Beijing')
 })
 </script>
 

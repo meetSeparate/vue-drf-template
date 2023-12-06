@@ -127,9 +127,10 @@ const sendMessage = async () => {
     }
   })
 }
+
 onMounted(() => {
   getUserAccount(accountConfig.value)
-  getCharacterData({currentSize: 7, currentPage: 1})
+  getCharacterData({currentPage: 1, currentSize: 10})
 })
 </script>
 
@@ -181,8 +182,8 @@ onMounted(() => {
           <el-table-column prop="gender" label="性别" align="center"/>
           <el-table-column prop="age" label="年龄" align="center"/>
           <el-table-column prop="phone" label="联系方式" align="center"/>
-          <el-table-column prop="date_joined" label="注册时间" align="center"/>
-          <el-table-column prop="role" label="用户角色" align="center"/>
+          <el-table-column prop="date_joined" label="入职时间" align="center"/>
+          <el-table-column prop="role" label="角色" align="center"/>
           <el-table-column fixed="right" label="操作" align="center">
             <template #default="scope">
               <el-button type="primary" :icon="Edit" size="small" @click="editUserInfoFlag(scope.row)"/>
@@ -264,6 +265,7 @@ onMounted(() => {
         >
           <el-input v-model="addUserForm.phone" autocomplete="off" placeholder="联系方式"/>
         </el-form-item>
+
         <el-form-item
             label="角色"
             prop="role"
@@ -277,7 +279,6 @@ onMounted(() => {
             />
           </el-select>
         </el-form-item>
-
       </el-form>
       <template #footer>
       <span class="dialog-footer">
@@ -358,6 +359,7 @@ onMounted(() => {
 
 </template>
 
+
 <style scoped lang="scss">
 .account_form {
   display: flex;
@@ -375,4 +377,26 @@ onMounted(() => {
   justify-content: flex-end;
   align-items: center;
 }
+
+.avatar-uploader .el-upload {
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: var(--el-color-primary);
+}
+
+.el-icon.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  text-align: center;
+}
+
 </style>

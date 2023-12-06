@@ -18,6 +18,8 @@
     "echarts": "^5.4.3",
     "echarts-liquidfill": "^3.1.0",
     "element-plus": "^2.3.7",
+    "fabric": "^5.3.0",
+    "jtest": "^0.0.1",
     "md-editor-v3": "^4.2.2",
     "moment": "^2.29.4",
     "nprogress": "^0.2.0",

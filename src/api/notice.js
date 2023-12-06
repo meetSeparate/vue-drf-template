@@ -12,10 +12,10 @@ export const getNoticeApi = () => request({
     method: 'get'
 })
 // 获取所有消息
-export const getAllNoticeApi = (data) => request({
+export const getAllNoticeApi = (params) => request({
     url: '/api/all_notice',
     method: 'get',
-    data
+    params
 })
 // 删除对应消息
 export const deleteNoticeApi = (id) => request({
@@ -27,7 +27,7 @@ export const deleteNoticeApi = (id) => request({
 export const getUserNoticeApi = (id) => request({
     url: '/api/user_notice',
     method: 'get',
-    data: {id}
+    params: {id}
 })
 // 删除对应用户消息
 export const deleteUserNoticeApi = (data) => request({
